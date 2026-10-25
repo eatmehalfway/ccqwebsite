@@ -4,1208 +4,1199 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCQ | Clinical Communication Quality</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><rect x=%222%22 y=%222%22 width=%228%22 height=%228%22 fill=%22%2381a9ad%22/><rect x=%2212%22 y=%2212%22 width=%228%22 height=%228%22 fill=%22%23ececec%22/><rect x=%2212%22 y=%222%22 width=%228%22 height=%228%22 stroke=%22%23537380%22 stroke-width=%222%22/></svg>">
-
-    <!-- Typography -->
+    <meta name="theme-color" content="#F7F7F7">
+    <!--
+      v2. Reading surface in the dashboard design language.
+      Light surfaces are neutral grey. Accents stay on the Material baseline.
+      Dark uses the Material dark scheme. Theme key: m3-cockpit-theme.
+    -->
+    <script>
+        (function () {
+            var key = "m3-cockpit-theme";
+            var stored = localStorage.getItem(key);
+            var theme = stored === "light" || stored === "dark"
+                ? stored
+                : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+            document.documentElement.setAttribute("data-theme", theme);
+        })();
+    </script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='3' width='7' height='7' fill='%231A1A1A'/><rect x='14' y='3' width='7' height='7' fill='none' stroke='%231A1A1A' stroke-width='2'/><rect x='14' y='14' width='7' height='7' fill='%236750A4'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Roboto:wght@400;500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0;24,400,1,0&display=swap" rel="stylesheet">
+    <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
     <style>
-        /* --- CORE VARIABLES --- */
         :root {
-            --charcoal: #1c1a19;       
-            --deep-blue: #2c3a42;      
-            --steel: #537380;          
-            --teal: #81a9ad;           
-            --platinum: #f4f4f4;
-            --magenta: #D1768B; 
-            --white: #ffffff;
-            
-            --font-main: 'Inter', sans-serif;
-            --font-human: 'Playfair Display', 'Times New Roman', serif; 
-            
-            --container-width: 1400px;
-            --padding-x: 6vw;
-            --header-height: 80px;
+            --md-ref-typeface-brand: "Roboto", system-ui, sans-serif;
+            --md-ref-typeface-plain: "Roboto", system-ui, sans-serif;
+
+            --md-sys-typescale-headline-large-size: 32px;
+            --md-sys-typescale-headline-large-line-height: 40px;
+            --md-sys-typescale-headline-small-size: 24px;
+            --md-sys-typescale-headline-small-line-height: 32px;
+            --md-sys-typescale-title-medium-size: 16px;
+            --md-sys-typescale-title-medium-line-height: 24px;
+            --md-sys-typescale-body-medium-size: 14px;
+            --md-sys-typescale-body-medium-line-height: 20px;
+            --md-sys-typescale-body-small-size: 12px;
+            --md-sys-typescale-body-small-line-height: 16px;
+            --md-sys-typescale-label-large-size: 14px;
+            --md-sys-typescale-label-large-line-height: 20px;
+            --md-sys-typescale-label-medium-size: 12px;
+            --md-sys-typescale-label-medium-line-height: 16px;
+
+            --md-sys-shape-corner-extra-small: 4px;
+            --md-sys-shape-corner-medium: 12px;
+            --md-sys-shape-corner-extra-large: 28px;
+            --md-sys-shape-corner-full: 9999px;
+
+            --md-sys-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+            --md-sys-motion-duration-short2: 100ms;
+            --md-sys-motion-duration-short4: 200ms;
+            --md-sys-motion-duration-medium1: 250ms;
+            --md-sys-motion-duration-medium2: 300ms;
+            --app-scan-duration: 5.5s;
+
+            --app-margin: 16px;
+            --app-bar-height: 80px;
+
+            /* Light: neutral surfaces, baseline accents. */
+            --md-sys-color-primary: #6750A4;
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-primary-container: #EADDFF;
+            --md-sys-color-on-primary-container: #21005D;
+            --md-sys-color-secondary: #625B71;
+            --md-sys-color-on-secondary: #FFFFFF;
+            --md-sys-color-secondary-container: #E8DEF8;
+            --md-sys-color-on-secondary-container: #1D192B;
+            --md-sys-color-tertiary: #7D5260;
+            --md-sys-color-on-tertiary: #FFFFFF;
+            --md-sys-color-tertiary-container: #FFD8E4;
+            --md-sys-color-on-tertiary-container: #31111D;
+            --md-sys-color-error: #B3261E;
+            --md-sys-color-on-error: #FFFFFF;
+            --md-sys-color-error-container: #F9DEDC;
+            --md-sys-color-on-error-container: #410E0B;
+            --md-sys-color-background: #F7F7F7;
+            --md-sys-color-on-background: #1A1A1A;
+            --md-sys-color-surface: #F7F7F7;
+            --md-sys-color-on-surface: #1A1A1A;
+            --md-sys-color-on-surface-variant: #5E5E5E;
+            --md-sys-color-surface-container-lowest: #FFFFFF;
+            --md-sys-color-surface-container-low: #FFFFFF;
+            --md-sys-color-surface-container: #F3F3F3;
+            --md-sys-color-surface-container-high: #EEEEEE;
+            --md-sys-color-surface-container-highest: #E6E6E6;
+            --md-sys-color-outline: #6F6F6F;
+            --md-sys-color-outline-variant: #E0E0E0;
+            --md-sys-color-inverse-surface: #1A1A1A;
+            --md-sys-color-inverse-on-surface: #F7F7F7;
+            --md-sys-color-inverse-primary: #D0BCFF;
+            --md-sys-color-scrim: #000000;
+            color-scheme: light;
         }
 
-        /* --- RESET --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
+        :root[data-theme="dark"] {
+            --md-sys-color-primary: #D0BCFF;
+            --md-sys-color-on-primary: #381E72;
+            --md-sys-color-primary-container: #4F378B;
+            --md-sys-color-on-primary-container: #EADDFF;
+            --md-sys-color-secondary: #CCC2DC;
+            --md-sys-color-on-secondary: #332D41;
+            --md-sys-color-secondary-container: #4A4458;
+            --md-sys-color-on-secondary-container: #E8DEF8;
+            --md-sys-color-tertiary: #EFB8C8;
+            --md-sys-color-on-tertiary: #492532;
+            --md-sys-color-tertiary-container: #633B48;
+            --md-sys-color-on-tertiary-container: #FFD8E4;
+            --md-sys-color-error: #F2B8B5;
+            --md-sys-color-on-error: #601410;
+            --md-sys-color-error-container: #8C1D18;
+            --md-sys-color-on-error-container: #F9DEDC;
+            --md-sys-color-background: #141218;
+            --md-sys-color-on-background: #E6E0E9;
+            --md-sys-color-surface: #141218;
+            --md-sys-color-on-surface: #E6E0E9;
+            --md-sys-color-on-surface-variant: #CAC4D0;
+            --md-sys-color-surface-container-lowest: #0F0D13;
+            --md-sys-color-surface-container-low: #1D1B20;
+            --md-sys-color-surface-container: #211F26;
+            --md-sys-color-surface-container-high: #2B2930;
+            --md-sys-color-surface-container-highest: #36343B;
+            --md-sys-color-outline: #938F99;
+            --md-sys-color-outline-variant: #49454F;
+            --md-sys-color-inverse-surface: #E6E0E9;
+            --md-sys-color-inverse-on-surface: #322F35;
+            --md-sys-color-inverse-primary: #6750A4;
+            --md-sys-color-scrim: #000000;
+            color-scheme: dark;
+        }
+
+        @media (min-width: 600px) {
+            :root { --app-margin: 24px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            :root {
+                --md-sys-motion-duration-short2: 0ms;
+                --md-sys-motion-duration-short4: 0ms;
+                --md-sys-motion-duration-medium1: 0ms;
+                --md-sys-motion-duration-medium2: 0ms;
+                --app-scan-duration: 0ms;
+            }
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        * { margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: var(--font-main);
-            background-color: var(--charcoal);
-            color: var(--platinum);
-            line-height: 1.5;
-            overflow-x: hidden;
+            font-family: var(--md-ref-typeface-plain);
+            font-size: var(--md-sys-typescale-body-medium-size);
+            line-height: var(--md-sys-typescale-body-medium-line-height);
+            font-weight: 400;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        html { 
-            scroll-behavior: smooth; 
-            overflow-wrap: break-word;
-            word-wrap: break-word;
-            hyphens: auto;
+        :focus { outline: none; }
+        :focus-visible {
+            outline: 3px solid var(--md-sys-color-secondary);
+            outline-offset: 2px;
         }
-        
-        a { text-decoration: none; color: inherit; transition: 0.3s; }
-        ul { list-style: none; }
 
-        /* --- UTILITIES --- */
-        .btn {
+        ::selection {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+        }
+
+        .material-symbols-outlined {
+            font-family: "Material Symbols Outlined";
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            direction: ltr;
+            font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+        }
+
+        .headline-large {
+            font-size: var(--md-sys-typescale-headline-large-size);
+            line-height: var(--md-sys-typescale-headline-large-line-height);
+            font-weight: 400;
+        }
+        .headline-small {
+            font-size: var(--md-sys-typescale-headline-small-size);
+            line-height: var(--md-sys-typescale-headline-small-line-height);
+            font-weight: 400;
+        }
+        .title-medium {
+            font-size: var(--md-sys-typescale-title-medium-size);
+            line-height: var(--md-sys-typescale-title-medium-line-height);
+            font-weight: 500;
+        }
+        .body-medium {
+            font-size: var(--md-sys-typescale-body-medium-size);
+            line-height: var(--md-sys-typescale-body-medium-line-height);
+            font-weight: 400;
+        }
+        .body-small {
+            font-size: var(--md-sys-typescale-body-small-size);
+            line-height: var(--md-sys-typescale-body-small-line-height);
+            font-weight: 400;
+        }
+        .label-large {
+            font-size: var(--md-sys-typescale-label-large-size);
+            line-height: var(--md-sys-typescale-label-large-line-height);
+            font-weight: 500;
+            letter-spacing: 0.1px;
+        }
+        .label-medium {
+            font-size: var(--md-sys-typescale-label-medium-size);
+            line-height: var(--md-sys-typescale-label-medium-line-height);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .kicker {
+            font-size: 12px;
+            line-height: 16px;
+            font-weight: 800;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .muted { color: var(--md-sys-color-on-surface-variant); }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .skip-link {
+            position: absolute;
+            left: var(--app-margin);
+            top: 12px;
+            z-index: 20;
+            transform: translateY(-160%);
+            background: var(--md-sys-color-inverse-surface);
+            color: var(--md-sys-color-inverse-on-surface);
+            padding: 8px 16px;
+            border-radius: var(--md-sys-shape-corner-full);
+            text-decoration: none;
+        }
+        .skip-link:focus { transform: none; }
+
+        .text-button,
+        .filled-button,
+        .icon-button,
+        .brand {
+            position: relative;
+            isolation: isolate;
+        }
+        .text-button::before,
+        .filled-button::before,
+        .icon-button::before,
+        .brand::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: currentColor;
+            opacity: 0;
+            pointer-events: none;
+            border-radius: inherit;
+            transition: opacity var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-emphasized-decelerate);
+        }
+        .text-button:hover::before,
+        .filled-button:hover::before,
+        .icon-button:hover::before,
+        .brand:hover::before { opacity: 0.08; }
+        .text-button:focus-visible::before,
+        .filled-button:focus-visible::before,
+        .icon-button:focus-visible::before,
+        .brand:focus-visible::before,
+        .text-button:active::before,
+        .filled-button:active::before,
+        .icon-button:active::before { opacity: 0.1; }
+
+        .text-button,
+        .filled-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.85rem 1.8rem;
-            border: 1px solid var(--white);
-            color: var(--white);
-            font-family: var(--font-main);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.75rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            height: 40px;
+            min-height: 40px;
+            padding: 0 24px;
+            border-radius: var(--md-sys-shape-corner-full);
+            border: none;
             background: transparent;
-        }
-        
-        .btn:hover {
-            background: var(--white);
-            color: var(--charcoal);
-        }
-
-        .btn.primary {
-            background-color: var(--magenta);
-            border-color: var(--magenta);
-            color: var(--white);
-            box-shadow: 0 4px 15px rgba(209, 118, 139, 0.3);
-        }
-
-        .btn.primary:hover:not(:disabled) {
-            background-color: #b56276;
-            transform: translateY(-2px);
-            color: var(--white);
-        }
-        
-        .btn.primary:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .label {
-            font-family: var(--font-main);
-            font-weight: 800;
-            color: var(--teal);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 1.25rem;
-            display: block;
-            font-size: 0.75rem;
-        }
-
-        /* --- ANIMATIONS --- */
-        .blur-reveal {
-            opacity: 0;
-            filter: blur(8px);
-            transform: translateY(20px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .blur-reveal.is-visible {
-            opacity: 1;
-            filter: blur(0px);
-            transform: translateY(0);
-        }
-
-        .delay-100 { transition-delay: 0.1s; }
-        .delay-200 { transition-delay: 0.2s; }
-        .delay-300 { transition-delay: 0.3s; }
-
-        /* --- NAVIGATION --- */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 9999;
-            padding: 0 var(--padding-x);
-            height: var(--header-height);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.4s ease, opacity 0.4s ease;
-            background: linear-gradient(to bottom, rgba(28,26,25,0.9), rgba(28,26,25,0));
-        }
-
-        nav.nav-hidden {
-            transform: translateY(-100%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .logo {
-            font-family: var(--font-main); 
-            font-weight: 900; 
-            font-size: 1.25rem;
-            letter-spacing: 0.05em;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--white);
-            text-transform: uppercase;
-        }
-
-        .nav-links { display: flex; gap: 3rem; }
-
-        .nav-links a {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--platinum);
-            opacity: 0.8;
-            position: relative;
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0%;
-            height: 1px;
-            background: var(--magenta);
-            transition: 0.3s;
-        }
-
-        .nav-links a:hover { opacity: 1; color: var(--white); }
-        .nav-links a:hover::after { width: 100%; }
-
-        /* --- LAYOUT LOGIC --- */
-        .stack-section {
-            position: sticky; 
-            top: 0;
-            min-height: 100vh;
-            width: 100%;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
-        }
-
-        /* =========================================
-           HERO SECTION
-           ========================================= */
-        #hero {
-            background-color: var(--charcoal);
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            background-image: url("doctor_conversation.jpg"); 
-            background-size: cover;
-            background-position: center;
-            filter: grayscale(100%) brightness(0.55) contrast(1.15); 
-            z-index: 0;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at center, transparent 20%, rgba(10, 10, 10, 0.85) 100%);
-            z-index: 1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            height: 100vh;
-            width: 100%;
-            padding: 100px var(--padding-x) 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .hero-top-text { align-self: flex-start; }
-
-        .hero-bottom-text {
-            align-self: flex-end;
-            text-align: right;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            max-width: 750px;
-        }
-
-        .emotive-title {
-            font-family: var(--font-main);
-            font-size: clamp(2.5rem, 6vw, 5.5rem);
-            color: var(--white);
-            line-height: 1.1;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-        }
-        
-        .hero-sub {
-            font-size: clamp(1rem, 1.8vw, 1.25rem);
-            color: var(--white);
-            margin-bottom: 2rem;
-            max-width: 480px;
-            font-weight: 300;
-            margin-top: 1.5rem;
-            line-height: 1.6;
-            opacity: 0.9;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 1.25rem;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
-
-        /* =========================================
-           SECTION 1: MISSION
-           ========================================= */
-        #mission {
-            background-color: var(--deep-blue);
-            z-index: 2;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .mission-text {
-            padding: var(--padding-x);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .big-picture-text {
-            font-family: var(--font-main);
+            font-family: inherit;
+            font-size: var(--md-sys-typescale-label-large-size);
+            line-height: var(--md-sys-typescale-label-large-line-height);
             font-weight: 500;
-            font-size: clamp(1.6rem, 3vw, 2.75rem);
-            line-height: 1.3;
-            color: var(--white);
-            letter-spacing: -0.02em;
+            letter-spacing: 0.1px;
+            text-decoration: none;
+            cursor: pointer;
+            white-space: nowrap;
         }
-
-        .mission-viz {
-            position: relative;
-            background: rgba(255, 255, 255, 0.02);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border-left: 1px solid rgba(255,255,255,0.05);
+        .text-button { color: var(--md-sys-color-primary); padding: 0 12px; }
+        .filled-button {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
         }
+        .filled-button:disabled {
+            background: color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent);
+            color: color-mix(in srgb, var(--md-sys-color-on-surface) 38%, transparent);
+            cursor: not-allowed;
+        }
+        .filled-button:disabled::before { opacity: 0; }
 
-        .data-grid-viz {
+        .icon-button {
+            width: 48px;
+            height: 48px;
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 1.5rem;
-            padding: 2rem;
-            transform: rotate(-10deg);
+            place-items: center;
+            border: none;
+            background: transparent;
+            color: var(--md-sys-color-on-surface);
+            border-radius: var(--md-sys-shape-corner-full);
+            cursor: pointer;
         }
 
-        .dg-node {
-            width: 24px;
-            height: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
+        .app-bar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: 0.5s;
+            gap: 8px;
+            height: calc(var(--app-bar-height) + env(safe-area-inset-top));
+            padding: env(safe-area-inset-top) var(--app-margin) 0;
+            background: var(--md-sys-color-surface);
+        }
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            min-height: 48px;
+            margin-right: auto;
+            padding: 0 8px;
+            border-radius: var(--md-sys-shape-corner-full);
+            text-decoration: none;
+            color: inherit;
+        }
+        .brand-mark {
+            display: block;
+            width: 132px;
+            height: 36px;
+            background: var(--md-sys-color-on-surface);
+            -webkit-mask-image: url("../1_23_26_Logo_Light_FINAL.svg");
+            mask-image: url("../1_23_26_Logo_Light_FINAL.svg");
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: left center;
+            mask-position: left center;
+            -webkit-mask-size: contain;
+            mask-size: contain;
+        }
+        .app-actions { display: flex; align-items: center; gap: 4px; }
+
+        .page {
+            width: min(1120px, 100%);
+            margin: 0 auto;
+            padding: 16px var(--app-margin) 64px;
         }
 
+        .intro { max-width: none; padding: 16px 0 8px; container-type: inline-size; }
+        .intro h1 {
+            width: 100%;
+            margin: 16px 0;
+            font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+            font-size: clamp(32px, calc((100cqi - 8px) / 10.19), 176px);
+            font-weight: 550;
+            line-height: 1.08;
+            letter-spacing: 0;
+        }
+        .intro h1 em { font-style: italic; font-weight: 400; }
+        .intro .lede { max-width: 38rem; }
+        .intro .lede + .lede { margin-top: 12px; }
+
+        .section { margin-top: 40px; }
+        .section > .kicker { margin-bottom: 12px; }
+
+        .stack, .pair { display: grid; gap: 16px; }
+
+        .card {
+            --field-surface: var(--md-sys-color-surface-container-lowest);
+            background: var(--field-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--md-sys-shape-corner-medium);
+            padding: 16px;
+        }
+        .card h2 { margin-bottom: 4px; }
+        .hint { margin-bottom: 16px; max-width: 40rem; }
+
+        .signal-card {
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 0;
+            overflow: hidden;
+        }
+        .signal-card .hint { margin-bottom: 8px; }
+        .data-stage {
+            position: relative;
+            flex: 1 1 auto;
+            min-height: 240px;
+            margin: 0 -16px;
+            overflow: hidden;
+        }
+        .data-grid {
+            position: absolute;
+            inset: -40px;
+            display: grid;
+            grid-template-columns: repeat(var(--dg-cols, 7), 1fr);
+            grid-template-rows: repeat(var(--dg-rows, 5), 1fr);
+            justify-items: center;
+            align-items: center;
+        }
+        .data-layer {
+            position: absolute;
+            inset: 0;
+        }
+        .data-layer.is-blur {
+            filter: blur(18px);
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, transparent 40%, #000 70%);
+            mask-image: radial-gradient(ellipse 100% 100% at center, transparent 40%, #000 70%);
+        }
+        .data-layer.is-sharp {
+            z-index: 1;
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, #000 44%, transparent 68%);
+            mask-image: radial-gradient(ellipse 100% 100% at center, #000 44%, transparent 68%);
+        }
+        .data-stage::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background: radial-gradient(
+                ellipse 100% 100% at center,
+                transparent 70%,
+                color-mix(in srgb, var(--md-sys-color-surface-container-lowest) 50%, transparent) 88%,
+                var(--md-sys-color-surface-container-lowest) 100%
+            );
+        }
+        .dg-node {
+            width: 22px;
+            height: 22px;
+            margin: auto;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--md-sys-shape-corner-full);
+            display: grid;
+            place-items: center;
+            transition: border-color var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate);
+        }
         .dg-signal {
-            width: 10px;
-            height: 10px;
-            background: var(--teal);
-            transform: rotate(45deg) scale(0.5);
+            width: 8px;
+            height: 8px;
+            background: var(--md-sys-color-primary);
+            transform: rotate(45deg) scale(0.4);
             opacity: 0;
-            filter: blur(4px); 
-            box-shadow: 0 0 6px var(--teal); 
-            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition:
+                opacity var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate),
+                transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate);
         }
-
-        .dg-node.has-signal { border-color: rgba(129, 169, 173, 0.5); background: rgba(129, 169, 173, 0.05); }
-        
-        .dg-node.has-signal .dg-signal { 
-            opacity: 0.8; 
-            filter: blur(0px); 
+        .dg-node.has-signal { border-color: var(--md-sys-color-primary); }
+        .dg-node.has-signal .dg-signal {
+            opacity: 1;
             transform: rotate(45deg) scale(1);
         }
 
-        /* =========================================
-           SECTION 2: APPROACH
-           ========================================= */
-        #approach {
-            background-color: var(--platinum);
-            color: var(--charcoal);
-            z-index: 3;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .approach-text {
-            padding: var(--padding-x);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .approach-desc {
-            font-family: var(--font-main);
-            font-weight: 400; 
-            font-size: clamp(1.1rem, 2vw, 1.5rem);
-            line-height: 1.6;
-            color: #1a2226; 
-        }
-
-        .approach-viz {
+        .plot {
             position: relative;
-            background-color: var(--charcoal);
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 280px;
+            border-top: 1px solid var(--md-sys-color-outline-variant);
         }
+        #approachCanvas { width: 100%; height: 100%; display: block; }
 
-        #approachCanvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
+        .impact-body { display: grid; gap: 16px; }
+        .findings { list-style: none; }
+        .finding + .finding { border-top: 1px solid var(--md-sys-color-outline-variant); }
+        .finding { padding: 12px 0; }
+        .finding p { margin-top: 2px; }
 
-        /* =========================================
-           SECTION 3: IMPACT
-           ========================================= */
-        #impact {
-            background-color: var(--charcoal);
-            z-index: 4;
-            display: flex;
-            align-items: center;
-            padding: 6rem var(--padding-x);
-            min-height: 80vh; 
+        .monitor {
             position: relative;
-            overflow: hidden;
-        }
-
-        /* Art Deco / Tech Animation Background */
-        .impact-viz-container {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 40%;
-            z-index: 0;
-            pointer-events: none;
+            height: 220px;
             display: flex;
-            justify-content: space-evenly;
             align-items: flex-end;
-            padding: 0 1rem;
-            opacity: 0.6; 
-            mask-image: linear-gradient(to top, black 30%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to top, black 30%, transparent 100%);
+            justify-content: space-evenly;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+            overflow: hidden;
         }
-
         .arch-line {
-            width: 1px;
-            background: rgba(255, 255, 255, 0.05);
             position: relative;
+            width: 1px;
+            background: var(--md-sys-color-outline-variant);
         }
-
         .arch-pulse {
             position: absolute;
-            bottom: 0;
             left: 50%;
-            transform: translateX(-50%);
+            bottom: 0;
             width: 3px;
-            height: 40px; 
-            background: linear-gradient(to top, var(--teal), transparent);
-            border-radius: 4px;
+            height: 36px;
+            transform: translateX(-50%);
+            border-radius: var(--md-sys-shape-corner-full);
+            background: var(--md-sys-color-primary);
             opacity: 0;
-            animation: scanUp 6s infinite cubic-bezier(0.4, 0, 0.2, 1);
+            animation: scanUp var(--app-scan-duration) infinite var(--md-sys-motion-easing-emphasized-decelerate);
         }
-
         .arch-node {
             position: absolute;
             top: 0;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 4px;
-            height: 4px;
-            background: var(--magenta);
-            border-radius: 50%;
-            box-shadow: 0 0 6px var(--magenta);
+            width: 6px;
+            height: 6px;
+            background: var(--md-sys-color-tertiary);
+            transform: translate(-50%, -50%) rotate(45deg) scale(0);
             opacity: 0;
-            animation: pulseNode 6s infinite;
+            animation: pulseNode var(--app-scan-duration) infinite linear;
         }
-
         @keyframes scanUp {
             0% { bottom: 0; opacity: 0; }
-            20% { opacity: 0.7; }
-            80% { opacity: 0.7; }
-            100% { bottom: calc(100% - 40px); opacity: 0; }
+            15% { opacity: 0.9; }
+            85% { opacity: 0.9; }
+            100% { bottom: calc(100% - 36px); opacity: 0; }
         }
-
         @keyframes pulseNode {
-            0%, 85% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-            90% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            0%, 82% { transform: translate(-50%, -50%) rotate(45deg) scale(0); opacity: 0; }
+            90% { transform: translate(-50%, -50%) rotate(45deg) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) rotate(45deg) scale(1); opacity: 0.4; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .reveal { opacity: 1; transform: none; transition: none; }
+            .arch-pulse, .arch-node { animation: none; }
+            .arch-pulse { opacity: 0.85; bottom: 42%; }
+            .arch-node { opacity: 1; transform: translate(-50%, -50%) rotate(45deg) scale(1); }
         }
 
-        .impact-layout {
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 5rem;
-            width: 100%;
-            position: relative;
-            z-index: 10; 
-        }
-
-        .impact-header h2 {
-            font-family: var(--font-human);
-            font-weight: 500;
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            line-height: 1.2;
-            color: var(--white);
-            margin-top: 1rem;
-        }
-
-        .impact-list {
-            border-left: 1px solid rgba(255,255,255,0.15);
-            padding-left: 3rem;
-        }
-
-        .impact-item {
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .impact-item p {
-            font-size: 1.15rem;
-            font-weight: 300;
-            color: var(--white); 
-            max-width: 700px;
-            line-height: 1.6;
-        }
-
-        .impact-item::before {
-            content: '';
-            position: absolute;
-            left: -3.35rem;
-            top: 10px;
-            width: 10px;
-            height: 10px;
-            background: var(--magenta);
-            border-radius: 50%;
-        }
-
-        /* =========================================
-           DEMO SECTION & AJAX FORM
-           ========================================= */
-        #demo {
-            background-color: var(--platinum);
-            color: var(--charcoal);
-            z-index: 5;
-            padding: 5rem var(--padding-x);
-            position: relative;
-        }
-
-        .demo-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            align-items: center;
-        }
-
-        .demo-info h2 {
-            font-family: var(--font-human);
-            font-weight: 600;
-            font-size: clamp(2rem, 4vw, 2.75rem);
-            margin-bottom: 1.25rem;
-            color: var(--charcoal);
-        }
-        
-        .demo-info p {
-            font-size: 1.05rem;
-            color: #1a2226; 
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-            max-width: 480px;
-        }
-
-        .demo-form {
-            background: var(--white);
-            padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            border-top: 3px solid var(--magenta);
-            border-radius: 4px;
-        }
-
-        .form-group { margin-bottom: 1.25rem; }
-        
-        .form-label {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 0.4rem;
-            color: var(--deep-blue);
-        }
-
-        .form-input, .form-textarea {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid #dcdcdc;
-            background: #fbfbfb;
-            font-family: var(--font-main);
-            font-size: 0.9rem;
-            transition: 0.3s;
-            border-radius: 2px;
-        }
-
-        .form-input:focus, .form-textarea:focus {
-            outline: none;
-            border-color: var(--teal);
-            background: var(--white);
-        }
-
-        .form-textarea { height: 100px; resize: vertical; }
-
-        .submit-btn-container {
-            margin-top: 1.5rem;
-            text-align: right;
-        }
-
-        /* Success Message Layout */
-        .form-success-msg {
-            display: none; /* hidden by default, switched to flex when active */
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem 0;
+        .reveal {
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transform: translateY(8px);
+            transition:
+                opacity var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized-decelerate),
+                transform var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized-decelerate);
         }
+        .reveal.is-visible { opacity: 1; transform: none; }
+        .delay-1 { transition-delay: var(--md-sys-motion-duration-short2); }
+        .delay-2 { transition-delay: var(--md-sys-motion-duration-short4); }
 
-        .form-success-msg.active {
+        .copy { display: flex; flex-direction: column; gap: 12px; }
+        .form-actions { display: flex; justify-content: flex-end; margin-top: 8px; }
+
+        .field { position: relative; margin-bottom: 4px; }
+        .field input,
+        .field textarea {
+            width: 100%;
+            min-height: 56px;
+            padding: 20px 16px 6px;
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: var(--md-sys-shape-corner-extra-small);
+            background: transparent;
+            color: var(--md-sys-color-on-surface);
+            font: inherit;
+            font-size: 16px;
+            line-height: 24px;
+        }
+        .field textarea { min-height: 112px; resize: vertical; padding-top: 22px; }
+        .field label {
+            position: absolute;
+            left: 12px;
+            top: 16px;
+            padding: 0 4px;
+            background: var(--field-surface);
+            color: var(--md-sys-color-on-surface-variant);
+            pointer-events: none;
+            transition:
+                top var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized-decelerate),
+                transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized-decelerate),
+                font-size var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized-decelerate),
+                color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized-decelerate);
+        }
+        .field input:focus + label,
+        .field input:not(:placeholder-shown) + label,
+        .field textarea:focus + label,
+        .field textarea:not(:placeholder-shown) + label {
+            top: 0;
+            transform: translateY(-50%);
+            font-size: 12px;
+            line-height: 16px;
+        }
+        .field input:focus,
+        .field textarea:focus {
+            border-color: var(--md-sys-color-primary);
+            border-width: 2px;
+            padding: 19px 15px 5px;
+        }
+        .field textarea:focus { padding-top: 21px; }
+        .field input:focus + label,
+        .field textarea:focus + label { color: var(--md-sys-color-primary); }
+        .field .field-error {
+            min-height: 16px;
+            padding: 4px 16px 0;
+            color: var(--md-sys-color-error);
+        }
+        .field.is-error input,
+        .field.is-error textarea { border-color: var(--md-sys-color-error); }
+        .field.is-error label,
+        .field.is-error input:focus + label,
+        .field.is-error textarea:focus + label { color: var(--md-sys-color-error); }
+
+        .form-success {
             display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 24px 0;
         }
-        
-        .form-success-msg.show {
-            opacity: 1;
-        }
+        .form-success[hidden] { display: none !important; }
 
-        .form-success-msg h3 {
-            font-family: var(--font-main);
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--deep-blue);
-            margin-bottom: 0.75rem;
-            letter-spacing: -0.02em;
-        }
-
-        .form-success-msg p {
-            color: var(--steel);
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        /* =========================================
-           FOOTER
-           ========================================= */
         .footer {
-            background-color: var(--deep-blue);
-            color: var(--white);
-            padding: 4rem var(--padding-x) 2rem;
-            z-index: 6;
-            position: relative;
+            border-top: 1px solid var(--md-sys-color-outline-variant);
+            padding: 24px var(--app-margin) 32px;
         }
-
-        .footer-top {
+        .footer-inner {
+            width: min(1120px, 100%);
+            margin: 0 auto;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
             flex-wrap: wrap;
-            gap: 3rem;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            justify-content: space-between;
+            gap: 12px 24px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+        .footer a { color: var(--md-sys-color-primary); text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+        .footer-links { display: flex; gap: 16px; }
+
+        .snackbar {
+            position: fixed;
+            z-index: 20;
+            left: var(--app-margin);
+            bottom: calc(24px + env(safe-area-inset-bottom));
+            max-width: min(420px, calc(100% - 32px));
+            padding: 14px 16px;
+            background: var(--md-sys-color-inverse-surface);
+            color: var(--md-sys-color-inverse-on-surface);
+            border-radius: var(--md-sys-shape-corner-extra-small);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition:
+                opacity var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate),
+                transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate);
+        }
+        .snackbar.is-visible { opacity: 1; visibility: visible; transform: none; }
+
+        @media (min-width: 840px) {
+            .pair { grid-template-columns: 1fr 1fr; }
+            .impact-body { grid-template-columns: 1.1fr 0.9fr; align-items: end; }
+            .plot { height: 320px; }
         }
 
-        .footer-logo { font-weight: 900; font-size: 1.25rem; margin-bottom: 0.5rem; }
-        .footer-nav { display: flex; gap: 2rem; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-        .footer-nav a:hover { color: var(--magenta); }
-        .footer-bottom { display: flex; justify-content: space-between; font-size: 0.75rem; color: #a1b0b5; text-transform: uppercase; letter-spacing: 0.05em; }
+        @media (max-width: 599px) {
+            .brand-mark { width: 104px; height: 28px; }
+            .app-bar .text-button { padding: 0 8px; }
+            .form-actions .filled-button { width: 100%; }
+        }
 
-        /* =========================================
-           RESPONSIVE (MOBILE)
-           ========================================= */
-        @media (max-width: 900px) {
-            :root { --padding-x: 2rem; }
-            
-            nav { background: rgba(28,26,25,0.98); }
-            .nav-links { display: none; }
-            
-            .stack-section { position: relative; height: auto; min-height: 0; top: auto; }
-            
-            #hero { padding-top: 80px; }
-            .hero-content { height: auto; padding: 4rem 2rem; min-height: 80vh; gap: 3rem; justify-content: center; }
-            .hero-bottom-text { text-align: left; align-items: flex-start; }
-            .hero-actions { justify-content: flex-start; }
-
-            #mission, #approach, .demo-layout, .impact-layout { 
-                grid-template-columns: 1fr; 
-                display: flex;
-                flex-direction: column;
-            }
-
-            .mission-viz, .approach-viz { height: 400px; width: 100%; order: -1; }
-            .data-grid-viz { transform: rotate(0deg); gap: 1rem; } 
-            
-            .approach-viz { flex-direction: column; gap: 2rem; }
-            
-            .impact-layout { gap: 2rem; }
-            #impact { padding: 4rem var(--padding-x); }
-            
-            /* HIDE ANIMATION ON MOBILE */
-            .impact-viz-container { display: none; }
-            
-            .impact-list { padding-left: 1.5rem; }
-            .impact-item::before { left: -1.8rem; width: 8px; height: 8px; top: 8px; }
-            .impact-item p { font-size: 1rem; }
-            
-            #demo { padding: 4rem var(--padding-x); }
-            .demo-form { padding: 1.5rem; }
-            .submit-btn-container { text-align: left; }
-            
-            .footer-top { flex-direction: column; gap: 2rem; }
-            .footer-bottom { flex-direction: column; gap: 1rem; }
+        @media (scripting: none) {
+            .reveal { opacity: 1; transform: none; }
         }
     </style>
 </head>
 <body>
+    <a class="skip-link label-large" href="#main">Skip to content</a>
 
-    <nav id="navbar">
-        <div class="logo">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="2" width="8" height="8" fill="#81a9ad"/>
-                <rect x="12" y="12" width="8" height="8" fill="#ececec"/>
-                <rect x="12" y="2" width="8" height="8" stroke="#537380" stroke-width="2"/>
-            </svg>
-            CCQ
-        </div>
-        <div class="nav-links">
-            <a href="#mission">Mission</a>
-            <a href="#approach">Approach</a>
-            <a href="#impact">Impact</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
-
-    <!-- HEADER / HERO -->
-    <header id="hero" class="stack-section">
-        <div class="hero-bg"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <div class="hero-top-text blur-reveal">
-                <h1 class="emotive-title">The right<br>conversation</h1>
-            </div>
-            <div class="hero-bottom-text blur-reveal delay-100">
-                <h1 class="emotive-title">changes<br>everything.</h1>
-                <p class="hero-sub">It drives safety, trust, and outcomes. <br>We make it measurable.</p>
-                <div class="hero-actions">
-                    <a href="#approach" class="btn">Explore Our Approach</a>
-                    <a href="#demo" class="btn primary">Request A Demo</a>
-                </div>
-            </div>
+    <header class="app-bar">
+        <a class="brand" href="#main" aria-label="CCQ, home">
+            <span class="brand-mark" aria-hidden="true"></span>
+        </a>
+        <div class="app-actions">
+            <a class="text-button label-large" href="#demo">Request a demo</a>
+            <button class="icon-button" id="themeToggle" type="button" aria-label="Switch theme">
+                <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+            </button>
         </div>
     </header>
 
-    <!-- 01 // MISSION -->
-    <section id="mission" class="stack-section">
-        <div class="mission-text">
-            <span class="label">01 // Mission</span>
-            <p class="big-picture-text blur-reveal">
-                With our independent infrastructure, we help healthcare organizations measure, standardize, and improve clinical communication for safer, higher-quality care.
-            </p>
-        </div>
-        <div class="mission-viz">
-            <div class="data-grid-viz" id="dataGrid">
-                <!-- JS populates this -->
+    <main id="main" class="page">
+        <header class="intro">
+            <p class="kicker">COMMUNICATION INTELLIGENCE</p>
+            <h1 class="headline-large reveal">The right conversation<br>changes everything</h1>
+            <!-- <p class="lede body-medium reveal delay-1">It drives safety, trust, and outcomes. We make it measurable.</p> -->
+            <!-- <p class="lede body-medium muted reveal delay-2">With our independent infrastructure, we help healthcare organizations measure, standardize, and improve clinical communication for safer, higher-quality care.</p> -->
+        </header>
+
+        <section class="section" aria-labelledby="measure-kicker">
+            <p class="kicker" id="measure-kicker">The problem</p>
+                <article class="card signal-card reveal">
+                    <h2 class="headline-small">Conversations are the foundation of patient care</h2>
+                    <p class="hint body-medium muted">Every treatment decision rests on a conversation. </p>
+                    <p class="hint body-medium muted">~1 in 4 closed malpractice cases involve breakdowns with patients or families in communication
+
+                <!-- <article class="card reveal delay-1">
+                    <h2 class="headline-small">Risk </h2>
+                    <p class="hint body-medium muted">A transcript is read, marked, and summarized.</p>
+                    <div class="plot" id="approachViz">
+                        <canvas id="approachCanvas" aria-hidden="true"></canvas>
+                    </div>
+                </article> -->
+        </section>
+
+        <section class="section" aria-labelledby="measure-kicker">
+            <p class="kicker" id="measure-kicker">Identify</p>
+            <div class="pair">
+                <article class="card signal-card reveal">
+                    <h2 class="headline-small">Where a signal appears</h2>
+                    <p class="hint body-medium muted">Each mark is a measurable signal in a clinical conversation.</p>
+                    <div class="data-stage">
+                        <div class="data-layer is-blur">
+                            <div class="data-grid" id="dataGridBlur" aria-hidden="true"></div>
+                        </div>
+                        <div class="data-layer is-sharp">
+                            <div class="data-grid" id="dataGrid" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card reveal delay-1">
+                    <h2 class="headline-small">From transcript to measure</h2>
+                    <p class="hint body-medium muted">A transcript is read, marked, and summarized.</p>
+                    <div class="plot" id="approachViz">
+                        <canvas id="approachCanvas" aria-hidden="true"></canvas>
+                    </div>
+                </article>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 02 // APPROACH -->
-    <section id="approach" class="stack-section">
-        <div class="approach-text">
-            <span class="label" style="color: var(--deep-blue);">02 // Approach</span>
-            <p class="approach-desc blur-reveal">
-                We analyze ambient clinical encounter transcripts to extract measurable signals of communication and decision-making. 
-                <br><br>
-                Grounded in established decision-science literature, our frameworks give health systems scalable insight into the quality of clinical conversations.
-            </p>
-        </div>
-        <div class="approach-viz" id="approachVizContainer">
-            <canvas id="approachCanvas"></canvas>
-        </div>
-    </section>
+        <section class="section" aria-labelledby="impact-kicker">
+            <p class="kicker" id="impact-kicker">THE OPPORTUNITY</p>
+            <article class="card">
+                <h2 class="headline-small reveal">Communication becomes a measurable standard</h2>
+                <!-- <p class="hint body-medium muted reveal">The same read, used by care teams and health systems.</p> -->
+                <div class="impact-body">
+                    <ul class="findings">
+                        <li class="finding reveal">
+                            <h3 class="title-medium">Identify</h3>
+                            <p class="body-medium muted">Detect recurring omissions and variation in how treatment decisions are discussed.</p>
+                        </li>
+                        <li class="finding reveal delay-1">
+                            <h3 class="title-medium">Support</h3>
+                            <p class="body-medium muted">Provide clinicians and departments with actionable feedback to guide communication improvement.</p>
+                        </li>
+                        <li class="finding reveal delay-1">
+                            <h3 class="title-medium">Connect</h3>
+                            <p class="body-medium muted">Support system-level quality improvement that enhances patient experience and trust.</p>
+                        </li>
+                        <!-- <li class="finding reveal delay-2">
+                            <h3 class="title-medium">Research</h3>
+                            <p class="body-medium muted">Facilitate research, benchmarking, and analysis of communication patterns across care settings.</p>
+                        </li> -->
+                    </ul>
+                    <div class="monitor" id="impactViz" aria-hidden="true"></div>
+                </div>
+            </article>
+        </section>
 
-    <!-- 03 // IMPACT -->
-    <section id="impact" class="stack-section">
-        <div class="impact-viz-container" id="impactViz">
-            <!-- JS will populate lines and pulses here -->
-        </div>
-
-        <div class="impact-layout">
-            <div class="impact-header">
-                <span class="label">03 // Impact</span>
-                <h2 class="blur-reveal">Communication becomes a measurable standard.</h2>
+        <section class="section" id="demo" aria-labelledby="demo-kicker">
+            <p class="kicker" id="demo-kicker">Request a demo</p>
+            <div class="pair">
+                <article class="card copy">
+                    <h2 class="headline-small">See it on your own conversations</h2>
+                    <p class="body-medium">Explore how communication can become a measurable standard within your organization.</p>
+                    <p class="body-medium muted">This live session includes a demonstration of our measurement framework and example outputs, along with a strategic discussion of how our clinical communication infrastructure can support quality improvement and research initiatives.</p>
+                </article>
+                <article class="card">
+                    <!--
+                      Web3Forms: replace YOUR_ACCESS_KEY_HERE with the key for info@ccqsys.com
+                      from https://web3forms.com/
+                    -->
+                    <form id="contactForm" novalidate>
+                        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                        <input type="hidden" name="subject" value="New Demo Request - CCQ Systems">
+                        <div class="field">
+                            <input id="name" name="name" type="text" autocomplete="name" placeholder=" " required>
+                            <label class="body-medium" for="name">Name</label>
+                            <p class="field-error body-small" id="name-error"></p>
+                        </div>
+                        <div class="field">
+                            <input id="role" name="role" type="text" autocomplete="organization-title" placeholder=" " required>
+                            <label class="body-medium" for="role">Role</label>
+                            <p class="field-error body-small" id="role-error"></p>
+                        </div>
+                        <div class="field">
+                            <input id="organization" name="organization" type="text" autocomplete="organization" placeholder=" " required>
+                            <label class="body-medium" for="organization">Organization</label>
+                            <p class="field-error body-small" id="organization-error"></p>
+                        </div>
+                        <div class="field">
+                            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder=" " required aria-describedby="email-error">
+                            <label class="body-medium" for="email">Email</label>
+                            <p class="field-error body-small" id="email-error"></p>
+                        </div>
+                        <div class="field">
+                            <textarea id="message" name="message" placeholder=" "></textarea>
+                            <label class="body-medium" for="message">Request details (optional)</label>
+                            <p class="field-error body-small"></p>
+                        </div>
+                        <div class="form-actions">
+                            <button class="filled-button" id="submitBtn" type="submit">Submit request</button>
+                        </div>
+                    </form>
+                    <div class="form-success" id="successMsg" hidden role="status">
+                        <h2 class="headline-small">Thank you</h2>
+                        <p class="body-medium muted">Your request has been received. We will be in touch shortly to schedule your demo.</p>
+                    </div>
+                </article>
             </div>
-            <div class="impact-list">
-                <div class="impact-item blur-reveal delay-100">
-                    <p>Transform clinical conversations into actionable insights for care teams and leadership.</p>
-                </div>
-                <div class="impact-item blur-reveal delay-200">
-                    <p>Enable monitoring of documentation fidelity, ensuring accurate and reliable records.</p>
-                </div>
-                <div class="impact-item blur-reveal delay-300">
-                    <p>Support system-level quality improvement that enhances patient experience and trust.</p>
-                </div>
-                <div class="impact-item blur-reveal delay-300">
-                    <p>Facilitate research, benchmarking, and analysis of communication patterns across care settings.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- REQUEST A DEMO -->
-    <section id="demo">
-        <div class="demo-layout">
-            <div class="demo-info">
-                <h2>Request A Demo</h2>
-                <p>Explore how communication can become a measurable standard within your organization.</p>
-                <p style="font-size: 0.9rem; opacity: 0.85;">This live session includes a demonstration of our measurement framework and example outputs, along with a strategic discussion of how our clinical communication infrastructure can support quality improvement and research initiatives.</p>
-            </div>
-            <div class="demo-form">
-                
-                <!-- 
-                   WEB3FORMS SETUP
-                   1. Go to https://web3forms.com/
-                   2. Enter info@ccqsys.com to generate your access key.
-                   3. Replace 'YOUR_ACCESS_KEY_HERE' below with that key. 
-                -->
-                <form id="contactForm">
-                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
-                    <input type="hidden" name="subject" value="New Demo Request - CCQ Systems">
-                    
-                    <div class="form-group">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-input" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Role</label>
-                        <input type="text" class="form-input" name="role" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Organization</label>
-                        <input type="text" class="form-input" name="organization" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-input" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Request Details (Optional)</label>
-                        <textarea class="form-textarea" name="message"></textarea>
-                    </div>
-                    
-                    <div class="submit-btn-container">
-                        <button type="submit" class="btn primary" id="submitBtn">Submit Request</button>
-                    </div>
-                </form>
-
-                <!-- Success Message Displayed via JS -->
-                <div class="form-success-msg" id="successMsg">
-                    <h3>Thank You</h3>
-                    <p>Your request has been received. We will be in touch shortly to schedule your demo.</p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
     <footer class="footer" id="contact">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <div class="footer-logo">CCQ SYSTEMS, INC.</div>
-                <a href="mailto:info@ccqsys.com" style="color: var(--teal); font-weight: 600;">info@ccqsys.com</a>
-            </div>
-            <div class="footer-nav">
-                <a href="#mission">Mission</a>
-                <a href="#approach">Approach</a>
-                <a href="#impact">Impact</a>
-                <a href="#demo">Demo</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div>© 2026 CCQ Systems, Inc. All rights reserved.</div>
-            <div style="display: flex; gap: 2rem;">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Use</a>
+        <div class="footer-inner body-small">
+            <p>© 2026 CCQ Systems, Inc. <a href="mailto:info@ccqsys.com">info@ccqsys.com</a></p>
+            <div class="footer-links">
+                <a href="#">Privacy policy</a>
+                <a href="#">Terms of use</a>
             </div>
         </div>
     </footer>
 
+    <div class="snackbar body-medium" id="snackbar" role="status" aria-live="polite" aria-hidden="true"></div>
+
     <script>
-        /* --- FORM SUBMISSION (AJAX Background Send) --- */
-        const contactForm = document.getElementById('contactForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const successMsg = document.getElementById('successMsg');
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const themeKey = "m3-cockpit-theme";
+        const themeBtn = document.getElementById("themeToggle");
+        const themeIcon = themeBtn.querySelector(".material-symbols-outlined");
+        const themeColor = document.querySelector('meta[name="theme-color"]');
 
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            
-            submitBtn.innerText = 'Sending...';
-            submitBtn.disabled = true;
-
-            const formData = new FormData(contactForm);
-            
-            fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: formData
-            })
-            .then(async (response) => {
-                let json = await response.json();
-                if (response.status == 200) {
-                    // Smoothly transition the layout height
-                    contactForm.style.transition = 'opacity 0.3s ease';
-                    contactForm.style.opacity = '0';
-                    
-                    setTimeout(() => {
-                        contactForm.style.display = 'none';
-                        successMsg.classList.add('active'); // changes display to flex
-                        
-                        // Force a reflow so CSS animation triggers correctly
-                        void successMsg.offsetWidth; 
-                        
-                        successMsg.classList.add('show'); // changes opacity to 1
-                    }, 300);
-                } else {
-                    console.log(response);
-                    alert("Something went wrong. Please check your access key or try again later.");
-                    submitBtn.innerText = 'Submit Request';
-                    submitBtn.disabled = false;
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                alert("Something went wrong. Please try again.");
-                submitBtn.innerText = 'Submit Request';
-                submitBtn.disabled = false;
-            });
-        });
-
-        /* --- NAV FADE ON SCROLL --- */
-        const nav = document.getElementById('navbar');
-        let lastScrollY = window.scrollY;
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                nav.classList.add('nav-hidden');
-            } else {
-                nav.classList.remove('nav-hidden');
-            }
-            lastScrollY = window.scrollY;
-        });
-
-        /* --- VISUALIZATION SCRIPT FOR MISSION (GRID) --- */
-        const gridContainer = document.getElementById('dataGrid');
-        for(let i=0; i<36; i++) {
-            const node = document.createElement('div');
-            node.classList.add('dg-node');
-            const sig = document.createElement('div');
-            sig.classList.add('dg-signal');
-            node.appendChild(sig);
-            gridContainer.appendChild(node);
+        function syncTheme(theme) {
+            const nextIsDark = theme !== "dark";
+            themeBtn.setAttribute("aria-label", nextIsDark ? "Switch to dark theme" : "Switch to light theme");
+            themeIcon.textContent = nextIsDark ? "dark_mode" : "light_mode";
+            themeColor.setAttribute("content", getComputedStyle(document.documentElement).getPropertyValue("--md-sys-color-surface").trim());
         }
-        
-        const nodes = document.querySelectorAll('.dg-node');
-        function animateGrid() {
+        function setTheme(theme, persist) {
+            document.documentElement.setAttribute("data-theme", theme);
+            if (persist) localStorage.setItem(themeKey, theme);
+            syncTheme(theme);
+        }
+        syncTheme(document.documentElement.getAttribute("data-theme") || "light");
+        themeBtn.addEventListener("click", () => {
+            const current = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+            setTheme(current === "dark" ? "light" : "dark", true);
+        });
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+            if (localStorage.getItem(themeKey)) return;
+            setTheme(event.matches ? "dark" : "light", false);
+        });
+
+        if (!reduceMotion) {
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) entry.target.classList.add("is-visible");
+                });
+            }, { threshold: 0.2 });
+            document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+        }
+
+        const grid = document.getElementById("dataGrid");
+        const blurGrid = document.getElementById("dataGridBlur");
+        const stage = grid.closest(".data-stage");
+        let nodes = [];
+        let blurNodes = [];
+        let gridCols = 0;
+        let gridRows = 0;
+        function setSignal(index, on) {
+            nodes[index].classList.toggle("has-signal", on);
+            blurNodes[index].classList.toggle("has-signal", on);
+        }
+        function stepGrid() {
+            if (!nodes.length) return;
             const index = Math.floor(Math.random() * nodes.length);
-            const node = nodes[index];
-            node.classList.toggle('has-signal');
-            if(Math.random() > 0.6) {
-                const clearIndex = Math.floor(Math.random() * nodes.length);
-                nodes[clearIndex].classList.remove('has-signal');
+            setSignal(index, !nodes[index].classList.contains("has-signal"));
+            if (Math.random() > 0.55) setSignal(Math.floor(Math.random() * nodes.length), false);
+        }
+        function fillGrid(target) {
+            target.style.setProperty("--dg-cols", String(gridCols));
+            target.style.setProperty("--dg-rows", String(gridRows));
+            target.replaceChildren();
+            const total = gridCols * gridRows;
+            for (let i = 0; i < total; i++) {
+                const node = document.createElement("div");
+                node.className = "dg-node";
+                const signal = document.createElement("div");
+                signal.className = "dg-signal";
+                node.appendChild(signal);
+                target.appendChild(node);
+            }
+            return [...target.children];
+        }
+        function layoutGrid() {
+            const cell = window.matchMedia("(max-width: 599px)").matches ? 46 : 40;
+            const nextCols = Math.max(5, Math.round((stage.clientWidth + 80) / cell));
+            const nextRows = Math.max(4, Math.round((stage.clientHeight + 80) / cell));
+            if (!stage.clientWidth || !stage.clientHeight || (nextCols === gridCols && nextRows === gridRows)) return;
+            gridCols = nextCols;
+            gridRows = nextRows;
+            nodes = fillGrid(grid);
+            blurNodes = fillGrid(blurGrid);
+            if (reduceMotion) {
+                nodes.forEach((_, index) => { if (index % 5 === 0) setSignal(index, true); });
+            } else {
+                for (let i = 0; i < Math.max(8, Math.round(nodes.length * 0.22)); i++) stepGrid();
             }
         }
-        for(let i=0; i<10; i++) animateGrid();
-        setInterval(animateGrid, 1000);
+        layoutGrid();
+        new ResizeObserver(layoutGrid).observe(stage);
+        if (!reduceMotion) setInterval(stepGrid, 900);
 
-        /* --- VISUALIZATION FOR IMPACT (ART DECO / TECH) --- */
-        const impactContainer = document.getElementById('impactViz');
-        const numLines = 30; 
-        if(impactContainer) {
-            for(let i=0; i<numLines; i++) {
-                const line = document.createElement('div');
-                line.classList.add('arch-line');
-                const height = Math.floor(Math.random() * 80) + 20;
-                line.style.height = height + '%';
-                const pulse = document.createElement('div');
-                pulse.classList.add('arch-pulse');
-                pulse.style.animationDelay = (Math.random() * 5) + 's';
-                pulse.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                line.appendChild(pulse);
-                const node = document.createElement('div');
-                node.classList.add('arch-node');
-                node.style.animationDelay = pulse.style.animationDelay; 
-                line.appendChild(node);
-                impactContainer.appendChild(line);
+        const monitor = document.getElementById("impactViz");
+        const lines = window.matchMedia("(max-width: 599px)").matches ? 12 : 18;
+        for (let i = 0; i < lines; i++) {
+            const line = document.createElement("div");
+            line.className = "arch-line";
+            line.style.height = (30 + Math.floor(Math.random() * 70)) + "%";
+            const pulse = document.createElement("div");
+            pulse.className = "arch-pulse";
+            const node = document.createElement("div");
+            node.className = "arch-node";
+            if (!reduceMotion) {
+                const delay = (Math.random() * 4) + "s";
+                const duration = (4 + Math.random() * 3) + "s";
+                pulse.style.animationDelay = delay;
+                pulse.style.animationDuration = duration;
+                node.style.animationDelay = delay;
+                node.style.animationDuration = duration;
             }
+            line.append(pulse, node);
+            monitor.appendChild(line);
         }
 
-        /* --- APPROACH VISUALIZATION --- */
-        (function() {
-            const canvas = document.getElementById('approachCanvas');
-            const container = canvas.parentElement;
-            let W, H, ctx;
-            
-            const C = {
-                bg: '#1c1a19',
-                deepBlue: '#2c3a42',
-                steel: '#537380',
-                teal: '#81a9ad',
-                platinum: '#f4f4f4',
-                magenta: '#D1768B',
-            };
-
-            function hex2rgb(hex) {
-                const r = parseInt(hex.slice(1,3),16);
-                const g = parseInt(hex.slice(3,5),16);
-                const b = parseInt(hex.slice(5,7),16);
-                return {r,g,b};
-            }
-            function rgba(hex, a) {
-                const {r,g,b} = hex2rgb(hex);
-                return `rgba(${r},${g},${b},${a})`;
-            }
-
-            function resize() {
-                W = canvas.width = container.offsetWidth;
-                H = canvas.height = container.offsetHeight;
-                ctx = canvas.getContext('2d');
-            }
-
-            let progress = 0; 
-            let isAnimating = false;
+        (function () {
+            const canvas = document.getElementById("approachCanvas");
+            const plot = document.getElementById("approachViz");
+            let W = 0;
+            let H = 0;
+            let ctx;
+            let progress = reduceMotion ? 1.2 : 0;
+            let running = reduceMotion;
             let time = 0;
+            let colors = {};
 
-            const lines = [];
-            const numLineRows = 6;
-            for(let i=0; i<numLineRows; i++) {
-                const segments = [];
-                const numSegs = Math.floor(Math.random() * 3) + 2;
-                for(let j=0; j<numSegs; j++) {
-                    segments.push(Math.random() * 0.3 + 0.1); 
-                }
-                lines.push(segments);
+            function readColors() {
+                const style = getComputedStyle(plot);
+                const pick = (name) => style.getPropertyValue(name).trim();
+                colors = {
+                    onSurface: pick("--md-sys-color-on-surface"),
+                    primary: pick("--md-sys-color-primary"),
+                    tertiary: pick("--md-sys-color-tertiary"),
+                    outline: pick("--md-sys-color-outline-variant")
+                };
+            }
+            function rgba(hex, alpha) {
+                if (!hex || hex.charAt(0) !== "#") return "transparent";
+                const value = hex.slice(1);
+                return "rgba(" + parseInt(value.slice(0, 2), 16) + "," + parseInt(value.slice(2, 4), 16) + "," + parseInt(value.slice(4, 6), 16) + "," + alpha + ")";
+            }
+            function resize() {
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                W = plot.clientWidth;
+                H = plot.clientHeight;
+                canvas.width = Math.max(1, Math.floor(W * dpr));
+                canvas.height = Math.max(1, Math.floor(H * dpr));
+                ctx = canvas.getContext("2d");
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                readColors();
             }
 
-            const labels = [
-                { color: C.teal, type: 0 },
-                { color: C.magenta, type: 1 },
-                { color: C.platinum, type: 0 },
-                { color: C.steel, type: 1 },
-                { color: C.teal, type: 1 },
-                { color: C.magenta, type: 0 }
+            const rows = [];
+            for (let i = 0; i < 5; i++) {
+                const segments = [];
+                const n = 2 + Math.floor(Math.random() * 3);
+                for (let j = 0; j < n; j++) segments.push(0.12 + Math.random() * 0.28);
+                rows.push(segments);
+            }
+            const marks = [
+                { key: "primary", diamond: false },
+                { key: "tertiary", diamond: true },
+                { key: "primary", diamond: false },
+                { key: "tertiary", diamond: true },
+                { key: "primary", diamond: true },
+                { key: "tertiary", diamond: false }
             ];
-
-            const bars = [0.4, 0.7, 0.5, 0.85, 0.3]; 
-
-            function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+            const bars = [0.45, 0.72, 0.55, 0.86, 0.38];
+            const ease = (t) => 1 - Math.pow(1 - t, 3);
 
             function draw() {
+                if (!ctx || W < 2 || H < 2) return;
                 ctx.clearRect(0, 0, W, H);
-                time += 0.01;
-
-                const breath = (Math.sin(time) * 3); 
-                const topY = H * 0.2;
-                const midY = H * 0.5;
-                const botY = H * 0.8;
-                
-                const contentWidth = 220; 
-                const startX = (W - contentWidth) / 2;
-                const centerX = W / 2;
+                if (!reduceMotion) time += 0.008;
+                const breath = reduceMotion ? 0 : Math.sin(time) * 2;
+                const topY = H * 0.22;
+                const midY = H * 0.52;
+                const botY = H * 0.78;
+                const center = W / 2;
+                const startX = Math.max(24, center - 120);
 
                 ctx.save();
-                ctx.strokeStyle = rgba(C.steel, 0.15);
+                ctx.strokeStyle = colors.outline;
                 ctx.setLineDash([2, 4]);
                 ctx.beginPath();
-                ctx.moveTo(centerX, H * 0.1);
-                ctx.lineTo(centerX, H * 0.9);
+                ctx.moveTo(center, 12);
+                ctx.lineTo(center, H - 12);
                 ctx.stroke();
                 ctx.restore();
 
                 const p1 = Math.min(1, progress * 2.5);
-                
                 if (p1 > 0) {
-                    const lineH = 10;
-                    const lineGap = 16;
-                    const linesTotalH = lines.length * lineGap;
-                    const linesStartY = topY - (linesTotalH / 2) + breath;
-                    
-                    lines.forEach((row, i) => {
-                        let rowX = startX; 
-                        const rowP = Math.max(0, Math.min(1, (p1 - (i * 0.1)) * 2));
-                        
-                        if(rowP > 0) {
-                            ctx.globalAlpha = rowP;
-                            row.forEach(w => {
-                                const segW = w * 150; 
-                                ctx.fillStyle = rgba(C.platinum, 0.2);
-                                ctx.fillRect(rowX, linesStartY + (i * lineGap), segW, lineH);
-                                rowX += segW + 5;
-                            });
-                        }
+                    rows.forEach((row, i) => {
+                        const rowP = Math.max(0, Math.min(1, (p1 - i * 0.12) * 2));
+                        if (rowP <= 0) return;
+                        let x = startX;
+                        ctx.globalAlpha = rowP;
+                        row.forEach((w) => {
+                            const width = w * 150;
+                            ctx.fillStyle = rgba(colors.onSurface, 0.18);
+                            ctx.fillRect(x, topY + i * 16 + breath, width, 8);
+                            x += width + 6;
+                        });
                     });
+                    ctx.globalAlpha = 1;
                 }
 
-                const p2 = Math.max(0, Math.min(1, (progress - 0.3) * 2));
-
+                const p2 = Math.max(0, Math.min(1, (progress - 0.28) * 2));
                 if (p2 > 0) {
-                    const labelGap = 40;
-                    const labelsTotalW = (labels.length - 1) * labelGap; 
-                    const labelStartX = centerX - (labelsTotalW / 2);
-                    const labelY = midY - 6 + breath;
-
-                    labels.forEach((lbl, i) => {
-                        const itemP = Math.max(0, Math.min(1, (p2 - (i * 0.1)) * 3));
-                        if(itemP <= 0) return;
-
-                        const x = labelStartX + (i * labelGap);
-                        
+                    const gap = Math.min(44, (W - 48) / marks.length);
+                    const origin = center - ((marks.length - 1) * gap) / 2;
+                    marks.forEach((mark, i) => {
+                        const itemP = Math.max(0, Math.min(1, (p2 - i * 0.1) * 3));
+                        if (itemP <= 0) return;
+                        const x = origin + i * gap;
+                        const y = midY + breath;
+                        const color = colors[mark.key];
                         ctx.save();
-                        ctx.globalAlpha = itemP * 0.3;
-                        ctx.strokeStyle = lbl.color;
-                        ctx.lineWidth = 1;
+                        ctx.globalAlpha = itemP * 0.45;
+                        ctx.strokeStyle = color;
                         ctx.beginPath();
-                        ctx.moveTo(x, topY + 40); 
-                        ctx.lineTo(x, labelY);
+                        ctx.moveTo(x, topY + 28);
+                        ctx.lineTo(x, y - 8);
                         ctx.stroke();
                         ctx.restore();
-
                         ctx.globalAlpha = itemP;
-                        ctx.fillStyle = rgba(lbl.color, 0.2);
-                        ctx.strokeStyle = lbl.color;
-                        
-                        if (lbl.type === 0) {
+                        ctx.fillStyle = rgba(color, 0.2);
+                        ctx.strokeStyle = color;
+                        if (mark.diamond) {
+                            ctx.save();
+                            ctx.translate(x, y);
+                            ctx.rotate(Math.PI / 4);
+                            ctx.fillRect(-5, -5, 10, 10);
+                            ctx.strokeRect(-5, -5, 10, 10);
+                            ctx.restore();
+                        } else {
                             ctx.beginPath();
-                            ctx.arc(x, labelY + 6, 6, 0, Math.PI*2);
+                            ctx.arc(x, y, 6, 0, Math.PI * 2);
                             ctx.fill();
                             ctx.stroke();
-                        } else {
-                            ctx.fillRect(x - 6, labelY, 12, 12);
-                            ctx.strokeRect(x - 6, labelY, 12, 12);
                         }
                     });
+                    ctx.globalAlpha = 1;
                 }
 
-                const p3 = Math.max(0, Math.min(1, (progress - 0.6) * 2));
-                
+                const p3 = Math.max(0, Math.min(1, (progress - 0.58) * 2));
                 if (p3 > 0) {
-                    const barW = 18;
-                    const barGap = 35;
-                    const barsTotalW = (bars.length * barW) + ((bars.length - 1) * (barGap - barW));
-                    const barStartX = centerX - (barsTotalW / 2) + 9; 
-                    const baseLine = botY + 20 + breath;
-
+                    const gap = 36;
+                    const origin = center - ((bars.length - 1) * gap) / 2 - 6;
                     bars.forEach((h, i) => {
-                        const barP = Math.max(0, Math.min(1, (p3 - (i * 0.1)) * 3));
-                        const easeBar = easeOutCubic(barP);
-                        
-                        if (barP > 0) {
-                            const curH = h * 60 * easeBar;
-                            const x = barStartX + (i * barGap);
-                            
-                            ctx.fillStyle = rgba(C.teal, 0.2);
-                            ctx.fillRect(x, baseLine - curH, barW, curH);
-                            
-                            ctx.fillStyle = C.teal;
-                            ctx.fillRect(x, baseLine - curH, barW, 2);
-
-                            ctx.save();
-                            ctx.globalAlpha = barP * 0.2;
-                            ctx.strokeStyle = C.teal;
-                            ctx.beginPath();
-                            ctx.moveTo(x + barW/2, midY + 20);
-                            ctx.lineTo(x + barW/2, baseLine - curH);
-                            ctx.stroke();
-                            ctx.restore();
-                        }
+                        const barP = Math.max(0, Math.min(1, (p3 - i * 0.1) * 3));
+                        if (barP <= 0) return;
+                        const height = h * (H * 0.22) * ease(barP);
+                        const x = origin + i * gap;
+                        const y = botY + breath;
+                        ctx.fillStyle = rgba(colors.primary, 0.16);
+                        ctx.beginPath();
+                        ctx.roundRect(x, y - height, 12, height, 6);
+                        ctx.fill();
+                        ctx.fillStyle = colors.primary;
+                        ctx.fillRect(x, y - height, 12, 2);
                     });
                 }
 
-                if (isAnimating && progress < 1.2) {
-                    progress += 0.004; 
-                }
-                
-                requestAnimationFrame(draw);
+                if (running && progress < 1.2) progress += 0.006;
             }
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
+            function frame() {
+                draw();
+                if (!reduceMotion) requestAnimationFrame(frame);
+            }
+            new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        isAnimating = true;
+                        running = true;
+                        resize();
                     }
                 });
-            }, { threshold: 0.3 });
-            
-            observer.observe(canvas);
-            
-            window.addEventListener('resize', resize);
+            }, { threshold: 0.25 }).observe(plot);
+            new ResizeObserver(resize).observe(plot);
             resize();
-            draw(); 
+            frame();
         })();
 
-        /* --- BLUR REVEAL SCRIPT --- */
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
+        const form = document.getElementById("contactForm");
+        const submitBtn = document.getElementById("submitBtn");
+        const successMsg = document.getElementById("successMsg");
+        const snackbar = document.getElementById("snackbar");
+        let snackTimer;
+        const messages = {
+            name: "Enter your name",
+            role: "Enter your role",
+            organization: "Enter your organization",
+            email: "Enter an email like name@example.com"
         };
-        const blurObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                }
+
+        function showSnackbar(message) {
+            snackbar.textContent = message;
+            snackbar.setAttribute("aria-hidden", "false");
+            snackbar.classList.add("is-visible");
+            clearTimeout(snackTimer);
+            snackTimer = setTimeout(() => {
+                snackbar.classList.remove("is-visible");
+                snackbar.setAttribute("aria-hidden", "true");
+            }, 6000);
+        }
+        function setFieldError(field, message) {
+            const wrap = field.closest(".field");
+            const error = wrap.querySelector(".field-error");
+            if (message) {
+                wrap.classList.add("is-error");
+                field.setAttribute("aria-invalid", "true");
+                error.textContent = message;
+            } else {
+                wrap.classList.remove("is-error");
+                field.removeAttribute("aria-invalid");
+                error.textContent = "";
+            }
+        }
+        form.querySelectorAll("input, textarea").forEach((field) => {
+            field.addEventListener("input", () => setFieldError(field, ""));
+        });
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            let firstInvalid = null;
+            ["name", "role", "organization", "email"].forEach((key) => {
+                const field = form.elements[key];
+                const invalid = !field.value.trim() || !field.checkValidity();
+                setFieldError(field, invalid ? messages[key] : "");
+                if (invalid && !firstInvalid) firstInvalid = field;
             });
-        }, observerOptions);
-        document.querySelectorAll('.blur-reveal').forEach((el) => {
-            blurObserver.observe(el);
+            if (firstInvalid) {
+                firstInvalid.focus();
+                return;
+            }
+            submitBtn.textContent = "Sending…";
+            submitBtn.disabled = true;
+            fetch("https://api.web3forms.com/submit", { method: "POST", body: new FormData(form) })
+                .then((response) => {
+                    if (response.status === 200) {
+                        form.hidden = true;
+                        successMsg.hidden = false;
+                        successMsg.tabIndex = -1;
+                        successMsg.focus();
+                    } else {
+                        showSnackbar("Something went wrong. Try again in a moment.");
+                        submitBtn.textContent = "Submit request";
+                        submitBtn.disabled = false;
+                    }
+                })
+                .catch(() => {
+                    showSnackbar("Something went wrong. Try again in a moment.");
+                    submitBtn.textContent = "Submit request";
+                    submitBtn.disabled = false;
+                });
         });
     </script>
 </body>
