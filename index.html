@@ -552,6 +552,8 @@
             min-height: 240px;
             margin: 0 -16px;
             overflow: hidden;
+            -webkit-mask-image: radial-gradient(ellipse 140% 132% at center, #000 62%, transparent 100%);
+            mask-image: radial-gradient(ellipse 140% 132% at center, #000 62%, transparent 100%);
         }
         .data-grid {
             position: absolute;
@@ -569,14 +571,14 @@
         .data-layer.is-blur-far {
             z-index: 0;
             filter: blur(120px);
-            -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, transparent 20%, #000 58%);
-            mask-image: radial-gradient(ellipse 100% 100% at center, transparent 20%, #000 58%);
+            -webkit-mask-image: radial-gradient(ellipse 118% 114% at center, transparent 20%, #000 58%, #000 74%, transparent 100%);
+            mask-image: radial-gradient(ellipse 118% 114% at center, transparent 20%, #000 58%, #000 74%, transparent 100%);
         }
         .data-layer.is-blur {
             z-index: 1;
             filter: blur(56px);
-            -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, transparent 16%, #000 48%);
-            mask-image: radial-gradient(ellipse 100% 100% at center, transparent 16%, #000 48%);
+            -webkit-mask-image: radial-gradient(ellipse 118% 114% at center, transparent 16%, #000 48%, #000 70%, transparent 100%);
+            mask-image: radial-gradient(ellipse 118% 114% at center, transparent 16%, #000 48%, #000 70%, transparent 100%);
         }
         .data-layer.is-sharp {
             z-index: 2;
@@ -590,11 +592,12 @@
             z-index: 3;
             pointer-events: none;
             background: radial-gradient(
-                ellipse 100% 100% at center,
+                ellipse 118% 114% at center,
                 transparent 34%,
                 color-mix(in srgb, var(--md-sys-color-surface-container-lowest) 55%, transparent) 56%,
-                color-mix(in srgb, var(--md-sys-color-surface-container-lowest) 92%, transparent) 74%,
-                var(--md-sys-color-surface-container-lowest) 86%
+                color-mix(in srgb, var(--md-sys-color-surface-container-lowest) 82%, transparent) 78%,
+                color-mix(in srgb, var(--md-sys-color-surface-container-lowest) 96%, transparent) 94%,
+                var(--md-sys-color-surface-container-lowest) 100%
             );
         }
         .dg-links {
