@@ -93,6 +93,15 @@
             --md-sys-color-inverse-on-surface: #F7F7F7;
             --md-sys-color-inverse-primary: #D0BCFF;
             --md-sys-color-scrim: #000000;
+            --series-extra: #0B6E4F;
+            --flow-identify: #C9B8EA;
+            --flow-identify-end: #6750A4;
+            --flow-support: #E7DEF6;
+            --flow-support-end: #DDD0F2;
+            --flow-connect: #F6D4E0;
+            --flow-connect-end: #E7B4C6;
+            --flow-source: #1A3E72;
+            --flow-halo: #E6E6EC;
             color-scheme: light;
         }
 
@@ -129,6 +138,15 @@
             --md-sys-color-inverse-on-surface: #322F35;
             --md-sys-color-inverse-primary: #6750A4;
             --md-sys-color-scrim: #000000;
+            --series-extra: #6FBF98;
+            --flow-identify: #6E5A99;
+            --flow-identify-end: #D0BCFF;
+            --flow-support: #3C354C;
+            --flow-support-end: #4A4458;
+            --flow-connect: #5C3D48;
+            --flow-connect-end: #EFB8C8;
+            --flow-source: #9ECAFF;
+            --flow-halo: #2C2A32;
             color-scheme: dark;
         }
 
@@ -363,8 +381,8 @@
             width: 132px;
             height: 36px;
             background: var(--md-sys-color-on-surface);
-            -webkit-mask-image: url("../1_23_26_Logo_Light_FINAL.svg");
-            mask-image: url("../1_23_26_Logo_Light_FINAL.svg");
+            -webkit-mask-image: url("9_16_Logo_White_NoWords-01.svg");
+            mask-image: url("9_16_Logo_White_NoWords-01.svg");
             -webkit-mask-repeat: no-repeat;
             mask-repeat: no-repeat;
             -webkit-mask-position: left center;
@@ -409,6 +427,118 @@
         .card h2 { margin-bottom: 4px; }
         .hint { margin-bottom: 16px; max-width: 40rem; }
 
+        .cohort-card { display: flex; flex-direction: column; }
+        .cohort {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 16px 0 0;
+            text-align: center;
+        }
+        .cohort-marks {
+            display: grid;
+            grid-template-columns: repeat(2, 64px);
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+        .cohort-mark {
+            width: 64px;
+            height: 64px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--md-sys-shape-corner-full);
+            display: grid;
+            place-items: center;
+        }
+        .cohort-mark.is-marked { border-color: var(--md-sys-color-primary); }
+        .cohort-mark.is-marked::after {
+            content: "";
+            width: 22px;
+            height: 22px;
+            background: var(--md-sys-color-primary);
+            transform: rotate(45deg);
+        }
+        .cohort figcaption { max-width: 13.5rem; margin-inline: auto; }
+
+        .gap-card { display: flex; flex-direction: column; }
+        .gap-stage {
+            position: relative;
+            flex: 1 1 auto;
+            min-height: 300px;
+            margin-top: 8px;
+        }
+        .gap-talk {
+            position: absolute;
+            left: 50%;
+            top: 46%;
+            width: min(42%, 168px);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+        .gap-talk span {
+            height: 8px;
+            border-radius: var(--md-sys-shape-corner-full);
+            background: var(--md-sys-color-on-surface);
+            animation: talkFade 1.8s var(--md-sys-motion-easing-emphasized-decelerate) forwards;
+        }
+        .gap-talk .is-reply {
+            margin-left: auto;
+            background: var(--md-sys-color-tertiary);
+        }
+        .gap-field {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            place-items: center;
+        }
+        .gap-mark {
+            width: 22px;
+            height: 22px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            border-radius: var(--md-sys-shape-corner-full);
+            display: grid;
+            place-items: center;
+            opacity: 0;
+            animation: markIn 700ms var(--md-sys-motion-easing-emphasized-decelerate) forwards;
+        }
+        .gap-mark:nth-child(1) { animation-delay: 0.7s; }
+        .gap-mark:nth-child(2) { animation-delay: 0.95s; }
+        .gap-mark:nth-child(3) { animation-delay: 1.15s; }
+        .gap-mark:nth-child(4) { animation-delay: 0.85s; }
+        .gap-mark:nth-child(5) { animation-delay: 1.3s; }
+        .gap-mark:nth-child(8) { animation-delay: 1.45s; }
+        .gap-mark:nth-child(9) { animation-delay: 1.05s; }
+        .gap-mark:nth-child(10) { animation-delay: 1.55s; }
+        .gap-mark:nth-child(11) { animation-delay: 1.2s; }
+        .gap-mark:nth-child(12) { animation-delay: 1.7s; }
+        .gap-mark:nth-child(6),
+        .gap-mark:nth-child(7) { visibility: hidden; animation: none; }
+        .gap-mark.is-lit { border-color: var(--md-sys-color-primary); }
+        .gap-mark.is-lit::after,
+        .gap-mark.is-other::after {
+            content: "";
+            width: 8px;
+            height: 8px;
+            transform: rotate(45deg);
+        }
+        .gap-mark.is-lit::after { background: var(--md-sys-color-primary); }
+        .gap-mark.is-other { border-color: var(--md-sys-color-tertiary); }
+        .gap-mark.is-other::after { background: var(--md-sys-color-tertiary); }
+        @keyframes talkFade {
+            0%, 30% { opacity: 1; }
+            100% { opacity: 0.14; }
+        }
+        @keyframes markIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: none; }
+        }
+
         .signal-card {
             display: flex;
             flex-direction: column;
@@ -436,32 +566,54 @@
             position: absolute;
             inset: 0;
         }
+        .data-layer.is-blur-far {
+            z-index: 0;
+            filter: blur(120px);
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, transparent 20%, #000 58%);
+            mask-image: radial-gradient(ellipse 100% 100% at center, transparent 20%, #000 58%);
+        }
         .data-layer.is-blur {
-            filter: blur(18px);
-            -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, transparent 40%, #000 70%);
-            mask-image: radial-gradient(ellipse 100% 100% at center, transparent 40%, #000 70%);
+            z-index: 1;
+            filter: blur(56px);
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, transparent 16%, #000 48%);
+            mask-image: radial-gradient(ellipse 100% 100% at center, transparent 16%, #000 48%);
         }
         .data-layer.is-sharp {
-            z-index: 1;
-            -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, #000 44%, transparent 68%);
-            mask-image: radial-gradient(ellipse 100% 100% at center, #000 44%, transparent 68%);
+            z-index: 2;
+            -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, #000 16%, transparent 40%);
+            mask-image: radial-gradient(ellipse 100% 100% at center, #000 16%, transparent 40%);
         }
         .data-stage::after {
             content: "";
             position: absolute;
             inset: 0;
-            z-index: 2;
+            z-index: 3;
             pointer-events: none;
             background: radial-gradient(
                 ellipse 100% 100% at center,
-                transparent 70%,
-                color-mix(in srgb, var(--md-sys-color-surface-container-lowest) 50%, transparent) 88%,
-                var(--md-sys-color-surface-container-lowest) 100%
+                transparent 34%,
+                color-mix(in srgb, var(--md-sys-color-surface-container-lowest) 55%, transparent) 56%,
+                color-mix(in srgb, var(--md-sys-color-surface-container-lowest) 92%, transparent) 74%,
+                var(--md-sys-color-surface-container-lowest) 86%
             );
         }
+        .dg-links {
+            position: absolute;
+            inset: -40px;
+            z-index: 0;
+            width: calc(100% + 80px);
+            height: calc(100% + 80px);
+            overflow: visible;
+            pointer-events: none;
+        }
+        .data-layer.is-sharp .data-grid { z-index: 1; }
+        .dg-link { stroke-width: 2; stroke-linecap: round; }
+        .dg-link.is-a { stroke: var(--md-sys-color-primary); }
+        .dg-link.is-b { stroke: var(--md-sys-color-tertiary); }
+        .dg-link.is-c { stroke: var(--series-extra); }
         .dg-node {
-            width: 22px;
-            height: 22px;
+            width: 14px;
+            height: 14px;
             margin: auto;
             border: 1px solid var(--md-sys-color-outline-variant);
             border-radius: var(--md-sys-shape-corner-full);
@@ -470,20 +622,23 @@
             transition: border-color var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate);
         }
         .dg-signal {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
+            border-radius: var(--md-sys-shape-corner-full);
             background: var(--md-sys-color-primary);
-            transform: rotate(45deg) scale(0.4);
+            transform: scale(0.4);
             opacity: 0;
             transition:
                 opacity var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate),
                 transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized-decelerate);
         }
-        .dg-node.has-signal { border-color: var(--md-sys-color-primary); }
-        .dg-node.has-signal .dg-signal {
-            opacity: 1;
-            transform: rotate(45deg) scale(1);
-        }
+        .dg-node.has-signal .dg-signal { opacity: 1; transform: scale(1); }
+        .dg-node[data-color="a"] { border-color: var(--md-sys-color-primary); }
+        .dg-node[data-color="a"] .dg-signal { background: var(--md-sys-color-primary); }
+        .dg-node[data-color="b"] { border-color: var(--md-sys-color-tertiary); }
+        .dg-node[data-color="b"] .dg-signal { background: var(--md-sys-color-tertiary); }
+        .dg-node[data-color="c"] { border-color: var(--series-extra); }
+        .dg-node[data-color="c"] .dg-signal { background: var(--series-extra); }
 
         .plot {
             position: relative;
@@ -549,9 +704,11 @@
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
             .reveal { opacity: 1; transform: none; transition: none; }
-            .arch-pulse, .arch-node { animation: none; }
+            .arch-pulse, .arch-node, .gap-talk span, .gap-mark, .flow-ribbon { animation: none; }
             .arch-pulse { opacity: 0.85; bottom: 42%; }
             .arch-node { opacity: 1; transform: translate(-50%, -50%) rotate(45deg) scale(1); }
+            .gap-talk span { opacity: 0.16; }
+            .gap-mark, .flow-ribbon { opacity: 1; transform: none; }
         }
 
         .reveal {
@@ -566,6 +723,25 @@
         .delay-2 { transition-delay: var(--md-sys-motion-duration-short4); }
 
         .copy { display: flex; flex-direction: column; gap: 12px; }
+        .flow-card { display: flex; flex-direction: column; }
+        .flows {
+            position: relative;
+            width: 82%;
+            aspect-ratio: 640 / 700;
+            margin-top: 8px;
+            margin-left: 0%;
+            margin-right: auto;
+        }
+        .flows-stage { position: absolute; inset: 0; }
+        .flows-art { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .flow-ribbon { transform-box: view-box; transform-origin: 108px 404px; }
+        .flow-ribbon.is-connect { animation: flowGrow 900ms var(--md-sys-motion-easing-emphasized-decelerate) both; }
+        .flow-ribbon.is-support { animation: flowGrow 900ms 80ms var(--md-sys-motion-easing-emphasized-decelerate) both; }
+        .flow-ribbon.is-identify { animation: flowGrow 900ms 140ms var(--md-sys-motion-easing-emphasized-decelerate) both; }
+        @keyframes flowGrow {
+            from { opacity: 0; transform: scale(0.08); }
+            to { opacity: 1; transform: none; }
+        }
         .form-actions { display: flex; justify-content: flex-end; margin-top: 8px; }
 
         .field { position: relative; margin-bottom: 4px; }
@@ -672,6 +848,7 @@
 
         @media (min-width: 840px) {
             .pair { grid-template-columns: 1fr 1fr; }
+            .demo-pair { grid-template-columns: 1.2fr 0.8fr; }
             .impact-body { grid-template-columns: 1.1fr 0.9fr; align-items: end; }
             .plot { height: 320px; }
         }
@@ -710,43 +887,74 @@
             <!-- <p class="lede body-medium muted reveal delay-2">With our independent infrastructure, we help healthcare organizations measure, standardize, and improve clinical communication for safer, higher-quality care.</p> -->
         </header>
 
-        <section class="section" aria-labelledby="measure-kicker">
-            <p class="kicker" id="measure-kicker">The problem</p>
-                <article class="card signal-card reveal">
-                    <h2 class="headline-small">Conversations are the foundation of patient care</h2>
-                    <p class="hint body-medium muted">Every treatment decision rests on a conversation. </p>
-                    <p class="hint body-medium muted">~1 in 4 closed malpractice cases involve breakdowns with patients or families in communication
-
-                <!-- <article class="card reveal delay-1">
-                    <h2 class="headline-small">Risk </h2>
-                    <p class="hint body-medium muted">A transcript is read, marked, and summarized.</p>
-                    <div class="plot" id="approachViz">
-                        <canvas id="approachCanvas" aria-hidden="true"></canvas>
+        <section class="section" aria-labelledby="problem-kicker">
+            <p class="kicker" id="problem-kicker">The problem</p>
+            <div class="pair">
+                <article class="card cohort-card reveal">
+                    <h2 class="headline-small">Patients index their care experience on clinical conversations</h2>
+                    <figure class="cohort">
+                        <div class="cohort-marks">
+                            <span class="cohort-mark is-marked" aria-hidden="true"></span>
+                            <span class="cohort-mark" aria-hidden="true"></span>
+                            <span class="cohort-mark" aria-hidden="true"></span>
+                            <span class="cohort-mark" aria-hidden="true"></span>
+                        </div>
+                        <figcaption class="body-medium muted">~1 in 4 closed malpractice cases involve breakdowns with patients or families in communication</figcaption>
+                    </figure>
+                </article>
+                <article class="card gap-card reveal delay-1">
+                    <h2 class="headline-small">Clinical conversations are effectively invisible at system-level scale</h2>
+                    <div class="gap-stage" aria-hidden="true">
+                        <div class="gap-talk">
+                            <span style="width: 78%"></span>
+                            <span class="is-reply" style="width: 52%"></span>
+                            <span style="width: 66%"></span>
+                            <span class="is-reply" style="width: 40%"></span>
+                        </div>
+                        <div class="gap-field">
+                            <span class="gap-mark"></span>
+                            <span class="gap-mark is-lit"></span>
+                            <span class="gap-mark"></span>
+                            <span class="gap-mark is-other"></span>
+                            <span class="gap-mark is-lit"></span>
+                            <span class="gap-mark"></span>
+                            <span class="gap-mark"></span>
+                            <span class="gap-mark is-other"></span>
+                            <span class="gap-mark"></span>
+                            <span class="gap-mark is-lit"></span>
+                            <span class="gap-mark is-other"></span>
+                            <span class="gap-mark"></span>
+                        </div>
                     </div>
-                </article> -->
+                </article>
+            </div>
         </section>
 
         <section class="section" aria-labelledby="measure-kicker">
             <p class="kicker" id="measure-kicker">Identify</p>
             <div class="pair">
+                <article class="card reveal delay-1">
+                    <h2 class="headline-small">Leverage extant ambient systems</h2>
+                    <p class="hint body-medium muted">Unstructured conversation trascripts are decomposed into a discrete set of measurable signals</p>
+                    <div class="plot" id="approachViz">
+                        <canvas id="approachCanvas" aria-hidden="true"></canvas>
+                    </div>
+                </article>
+
                 <article class="card signal-card reveal">
-                    <h2 class="headline-small">Where a signal appears</h2>
-                    <p class="hint body-medium muted">Each mark is a measurable signal in a clinical conversation.</p>
+                    <h2 class="headline-small">Structured representations reveal systemic patterns</h2>
+                    <p class="hint body-medium muted">CCQ's taxonomy provides a consistent basis for examining the content, structure, and quality of communication</p>
                     <div class="data-stage">
+                        <div class="data-layer is-blur-far">
+                            <div class="data-grid" id="dataGridBlurFar" aria-hidden="true"></div>
+                        </div>
                         <div class="data-layer is-blur">
                             <div class="data-grid" id="dataGridBlur" aria-hidden="true"></div>
                         </div>
                         <div class="data-layer is-sharp">
+                            <svg class="dg-links" id="dataLinks" aria-hidden="true"></svg>
                             <div class="data-grid" id="dataGrid" aria-hidden="true"></div>
                         </div>
-                    </div>
-                </article>
-
-                <article class="card reveal delay-1">
-                    <h2 class="headline-small">From transcript to measure</h2>
-                    <p class="hint body-medium muted">A transcript is read, marked, and summarized.</p>
-                    <div class="plot" id="approachViz">
-                        <canvas id="approachCanvas" aria-hidden="true"></canvas>
                     </div>
                 </article>
             </div>
@@ -755,7 +963,7 @@
         <section class="section" aria-labelledby="impact-kicker">
             <p class="kicker" id="impact-kicker">THE OPPORTUNITY</p>
             <article class="card">
-                <h2 class="headline-small reveal">Communication becomes a measurable standard</h2>
+                <h2 class="headline-small reveal">Communication quality becomes a measurable and actionable</h2>
                 <!-- <p class="hint body-medium muted reveal">The same read, used by care teams and health systems.</p> -->
                 <div class="impact-body">
                     <ul class="findings">
@@ -783,11 +991,24 @@
 
         <section class="section" id="demo" aria-labelledby="demo-kicker">
             <p class="kicker" id="demo-kicker">Request a demo</p>
-            <div class="pair">
-                <article class="card copy">
-                    <h2 class="headline-small">See it on your own conversations</h2>
-                    <p class="body-medium">Explore how communication can become a measurable standard within your organization.</p>
-                    <p class="body-medium muted">This live session includes a demonstration of our measurement framework and example outputs, along with a strategic discussion of how our clinical communication infrastructure can support quality improvement and research initiatives.</p>
+            <div class="pair demo-pair">
+                <article class="card copy flow-card">
+                    <h2 class="headline-small">See how communication quality can become a measurable within your organization</h2>
+                    <figure class="flows">
+                        <div class="flows-stage">
+                        <svg class="flows-art" viewBox="0 0 640 700" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                            <path class="flow-ribbon is-connect" fill="var(--flow-connect)" d="M 112.0 409.0 L 120.9 413.4 L 129.9 417.8 L 138.9 422.0 L 148.0 426.2 L 157.2 430.2 L 166.4 434.1 L 175.7 437.9 L 185.1 441.5 L 194.5 445.1 L 204.0 448.6 L 213.5 451.9 L 223.0 455.1 L 232.6 458.2 L 242.2 461.2 L 251.8 464.0 L 261.5 466.8 L 271.1 469.4 L 280.8 471.9 L 290.5 474.3 L 300.3 476.6 L 310.0 478.8 L 319.7 480.9 L 329.4 482.9 L 339.1 484.8 L 348.8 486.5 L 358.5 488.2 L 368.1 489.8 L 377.7 491.3 L 387.3 492.6 L 396.9 493.9 L 406.4 495.1 L 415.9 496.2 L 425.4 497.2 L 434.8 498.1 L 444.1 498.9 L 453.4 499.6 L 462.7 500.2 L 471.9 500.8 L 481.0 501.2 L 490.0 501.6 L 498.8 501.8 L 507.0 501.8 L 514.8 501.6 L 522.1 501.2 L 529.0 500.7 L 535.5 500.0 L 541.5 499.1 L 547.2 498.1 L 552.5 496.9 L 557.4 495.6 L 561.9 494.2 L 566.1 492.6 L 570.0 491.0 L 573.6 489.2 L 576.9 487.3 L 579.9 485.4 L 582.7 483.3 L 585.2 481.3 L 587.4 479.1 L 589.5 477.0 L 591.4 474.8 L 593.0 472.6 L 594.5 470.4 L 595.8 468.2 L 597.0 466.0 L 598.1 463.9 L 599.0 461.8 L 599.9 459.8 L 600.7 457.9 L 601.4 456.1 L 602.0 454.3 L 602.6 452.7 L 603.2 451.3 L 603.8 450.0 L 604.4 448.8 L 605.0 447.8 L 605.7 447.1 L 606.4 446.5 L 607.1 446.1 L 608.0 446.0 L 608.0 554.0 L 607.1 554.1 L 606.4 554.5 L 605.7 555.0 L 605.0 555.8 L 604.4 556.8 L 603.8 557.9 L 603.2 559.2 L 602.6 560.7 L 602.0 562.3 L 601.4 564.0 L 600.7 565.8 L 599.9 567.7 L 599.0 569.7 L 598.1 571.8 L 597.0 573.9 L 595.8 576.0 L 594.5 578.1 L 593.0 580.3 L 591.4 582.4 L 589.5 584.5 L 587.4 586.6 L 585.2 588.6 L 582.7 590.5 L 579.9 592.4 L 576.9 594.1 L 573.6 595.7 L 570.0 597.2 L 566.1 598.5 L 561.9 599.6 L 557.4 600.6 L 552.5 601.3 L 547.2 601.7 L 541.5 601.9 L 535.5 601.9 L 529.0 601.5 L 522.1 600.8 L 514.8 599.8 L 507.0 598.4 L 498.8 596.6 L 490.0 594.4 L 481.0 591.9 L 471.9 589.2 L 462.7 586.3 L 453.4 583.2 L 444.1 579.8 L 434.8 576.3 L 425.4 572.7 L 415.9 568.8 L 406.4 564.8 L 396.9 560.7 L 387.3 556.4 L 377.7 551.9 L 368.1 547.4 L 358.5 542.7 L 348.8 537.9 L 339.1 533.1 L 329.4 528.1 L 319.7 523.1 L 310.0 518.0 L 300.3 512.9 L 290.5 507.7 L 280.8 502.4 L 271.1 497.1 L 261.5 491.9 L 251.8 486.5 L 242.2 481.2 L 232.6 475.9 L 223.0 470.6 L 213.5 465.4 L 204.0 460.1 L 194.5 454.9 L 185.1 449.8 L 175.7 444.7 L 166.4 439.6 L 157.2 434.7 L 148.0 429.8 L 138.9 424.9 L 129.9 420.2 L 120.9 415.5 L 112.0 411.0 Z"/>
+                            <path class="flow-ribbon is-support" fill="var(--flow-support)" d="M 112.0 403.0 L 120.9 398.7 L 129.9 394.3 L 139.1 389.7 L 148.3 385.0 L 157.6 380.2 L 167.1 375.2 L 176.6 370.2 L 186.1 365.2 L 195.8 360.0 L 205.5 354.9 L 215.3 349.7 L 225.2 344.6 L 235.1 339.4 L 245.0 334.3 L 255.0 329.2 L 265.0 324.2 L 275.0 319.3 L 285.1 314.5 L 295.2 309.9 L 305.3 305.3 L 315.3 301.0 L 325.4 296.8 L 335.5 292.8 L 345.6 289.1 L 355.6 285.6 L 365.6 282.3 L 375.6 279.3 L 385.6 276.6 L 395.5 274.3 L 405.3 272.2 L 415.1 270.6 L 424.9 269.2 L 434.6 268.3 L 444.2 267.8 L 453.7 267.7 L 463.2 268.0 L 472.5 268.8 L 481.8 270.1 L 490.9 271.8 L 500.0 274.1 L 508.7 276.6 L 517.0 278.9 L 524.7 281.2 L 532.0 283.4 L 538.8 285.4 L 545.1 287.3 L 551.0 289.2 L 556.5 290.9 L 561.7 292.5 L 566.4 294.0 L 570.7 295.4 L 574.7 296.7 L 578.4 297.9 L 581.8 299.0 L 584.8 300.0 L 587.6 300.9 L 590.0 301.7 L 592.3 302.4 L 594.2 303.0 L 596.0 303.6 L 597.5 304.0 L 598.9 304.4 L 600.1 304.8 L 601.1 305.0 L 602.0 305.2 L 602.7 305.4 L 603.3 305.5 L 603.8 305.5 L 604.3 305.6 L 604.6 305.6 L 604.9 305.5 L 605.2 305.5 L 605.5 305.4 L 605.7 305.3 L 606.0 305.3 L 606.3 305.2 L 606.6 305.1 L 607.0 305.1 L 607.4 305.0 L 608.0 305.0 L 608.0 391.0 L 607.4 391.0 L 607.0 391.1 L 606.6 391.1 L 606.3 391.2 L 606.0 391.3 L 605.7 391.3 L 605.5 391.4 L 605.2 391.5 L 604.9 391.5 L 604.6 391.6 L 604.3 391.6 L 603.8 391.5 L 603.3 391.5 L 602.7 391.4 L 602.0 391.2 L 601.1 391.0 L 600.1 390.7 L 598.9 390.4 L 597.5 389.9 L 596.0 389.4 L 594.2 388.8 L 592.3 388.2 L 590.0 387.4 L 587.6 386.5 L 584.8 385.5 L 581.8 384.3 L 578.4 383.1 L 574.7 381.6 L 570.7 380.1 L 566.4 378.3 L 561.7 376.5 L 556.5 374.4 L 551.0 372.1 L 545.1 369.6 L 538.8 367.0 L 532.0 364.0 L 524.7 360.9 L 517.0 357.5 L 508.7 353.8 L 500.0 349.9 L 490.9 346.0 L 481.8 342.5 L 472.5 339.4 L 463.2 336.7 L 453.7 334.4 L 444.2 332.4 L 434.6 330.7 L 424.9 329.4 L 415.1 328.3 L 405.3 327.6 L 395.5 327.2 L 385.6 327.1 L 375.6 327.3 L 365.6 327.7 L 355.6 328.5 L 345.6 329.4 L 335.5 330.6 L 325.4 332.1 L 315.3 333.8 L 305.3 335.7 L 295.2 337.8 L 285.1 340.1 L 275.0 342.6 L 265.0 345.3 L 255.0 348.1 L 245.0 351.2 L 235.1 354.3 L 225.2 357.7 L 215.3 361.1 L 205.5 364.7 L 195.8 368.4 L 186.1 372.2 L 176.6 376.1 L 167.1 380.1 L 157.6 384.2 L 148.3 388.3 L 139.1 392.4 L 129.9 396.6 L 120.9 400.8 L 112.0 405.0 Z"/>
+                            <path class="flow-ribbon is-identify" fill="var(--flow-identify)" d="M 112.0 399.0 L 119.4 387.7 L 126.9 376.3 L 134.6 364.8 L 142.3 353.2 L 150.2 341.6 L 158.1 329.9 L 166.2 318.2 L 174.3 306.4 L 182.5 294.7 L 190.8 283.0 L 199.2 271.3 L 207.7 259.6 L 216.2 248.1 L 224.9 236.6 L 233.5 225.2 L 242.3 213.9 L 251.1 202.8 L 259.9 191.8 L 268.8 181.0 L 277.8 170.4 L 286.7 160.0 L 295.8 149.8 L 304.8 139.9 L 313.9 130.2 L 323.0 120.9 L 332.1 111.8 L 341.3 103.1 L 350.4 94.8 L 359.6 86.8 L 368.8 79.2 L 378.0 72.0 L 387.1 65.2 L 396.3 58.9 L 405.5 53.1 L 414.6 47.7 L 423.7 42.9 L 432.8 38.6 L 441.9 34.8 L 451.0 31.6 L 460.0 29.1 L 468.8 26.9 L 477.2 25.1 L 485.3 23.7 L 493.0 22.5 L 500.3 21.7 L 507.3 21.0 L 514.0 20.7 L 520.3 20.6 L 526.3 20.7 L 532.1 21.0 L 537.5 21.6 L 542.6 22.2 L 547.5 23.1 L 552.1 24.1 L 556.4 25.2 L 560.5 26.5 L 564.3 27.8 L 567.9 29.2 L 571.3 30.7 L 574.5 32.3 L 577.5 33.9 L 580.3 35.5 L 582.9 37.2 L 585.3 38.8 L 587.5 40.5 L 589.6 42.1 L 591.6 43.7 L 593.4 45.2 L 595.1 46.7 L 596.7 48.2 L 598.2 49.5 L 599.5 50.7 L 600.8 51.9 L 602.0 52.9 L 603.1 53.8 L 604.2 54.6 L 605.2 55.2 L 606.2 55.6 L 607.1 55.9 L 608.0 56.0 L 608.0 180.0 L 607.1 179.9 L 606.2 179.6 L 605.2 179.2 L 604.2 178.5 L 603.1 177.8 L 602.0 176.9 L 600.8 175.8 L 599.5 174.6 L 598.2 173.4 L 596.7 172.0 L 595.1 170.5 L 593.4 168.9 L 591.6 167.3 L 589.6 165.6 L 587.5 163.9 L 585.3 162.1 L 582.9 160.3 L 580.3 158.4 L 577.5 156.6 L 574.5 154.7 L 571.3 152.8 L 567.9 151.0 L 564.3 149.1 L 560.5 147.3 L 556.4 145.5 L 552.1 143.8 L 547.5 142.1 L 542.6 140.4 L 537.5 138.9 L 532.1 137.3 L 526.3 135.9 L 520.3 134.5 L 514.0 133.2 L 507.3 132.0 L 500.3 130.9 L 493.0 129.9 L 485.3 129.0 L 477.2 128.2 L 468.8 127.5 L 460.0 126.9 L 451.0 126.7 L 441.9 127.0 L 432.8 127.7 L 423.7 128.9 L 414.6 130.5 L 405.5 132.7 L 396.3 135.2 L 387.1 138.2 L 378.0 141.6 L 368.8 145.4 L 359.6 149.6 L 350.4 154.2 L 341.3 159.2 L 332.1 164.6 L 323.0 170.3 L 313.9 176.4 L 304.8 182.9 L 295.8 189.6 L 286.7 196.7 L 277.8 204.1 L 268.8 211.9 L 259.9 219.9 L 251.1 228.2 L 242.3 236.7 L 233.5 245.6 L 224.9 254.6 L 216.2 264.0 L 207.7 273.5 L 199.2 283.3 L 190.8 293.2 L 182.5 303.4 L 174.3 313.7 L 166.2 324.2 L 158.1 334.8 L 150.2 345.6 L 142.3 356.5 L 134.6 367.5 L 126.9 378.6 L 119.4 389.8 L 112.0 401.0 Z"/>
+                            <rect x="598" y="56.0" width="22" height="124" rx="11" fill="var(--flow-identify-end)"/>
+                            <rect x="598" y="305.0" width="20" height="86" rx="10" fill="var(--flow-support-end)"/>
+                            <rect x="598" y="446.0" width="20" height="108" rx="10" fill="var(--flow-connect-end)"/>
+                            <circle cx="108" cy="404" r="18" fill="var(--flow-halo)"/>
+                            <circle cx="108" cy="404" r="14" fill="var(--md-sys-color-surface-container-lowest)"/>
+                            <circle cx="108" cy="404" r="10" fill="var(--flow-source)"/>
+                        </svg>
+                        </div>
+                    </figure>
                 </article>
                 <article class="card">
                     <!--
@@ -886,20 +1107,74 @@
 
         const grid = document.getElementById("dataGrid");
         const blurGrid = document.getElementById("dataGridBlur");
+        const farGrid = document.getElementById("dataGridBlurFar");
+        const links = document.getElementById("dataLinks");
         const stage = grid.closest(".data-stage");
+        const signalColors = ["a", "b", "c"];
         let nodes = [];
         let blurNodes = [];
+        let farNodes = [];
         let gridCols = 0;
         let gridRows = 0;
-        function setSignal(index, on) {
-            nodes[index].classList.toggle("has-signal", on);
-            blurNodes[index].classList.toggle("has-signal", on);
+        function neighborsOf(index) {
+            const col = index % gridCols;
+            const row = Math.floor(index / gridCols);
+            const found = [];
+            if (col > 0) found.push(index - 1);
+            if (col < gridCols - 1) found.push(index + 1);
+            if (row > 0) found.push(index - gridCols);
+            if (row < gridRows - 1) found.push(index + gridCols);
+            return found;
         }
-        function stepGrid() {
-            if (!nodes.length) return;
-            const index = Math.floor(Math.random() * nodes.length);
-            setSignal(index, !nodes[index].classList.contains("has-signal"));
-            if (Math.random() > 0.55) setSignal(Math.floor(Math.random() * nodes.length), false);
+        function paint(index, color) {
+            [nodes, blurNodes, farNodes].forEach((list) => {
+                list[index].dataset.color = color;
+                list[index].classList.add("has-signal");
+            });
+        }
+        function drawLinks() {
+            const bounds = links.getBoundingClientRect();
+            links.setAttribute("width", String(bounds.width));
+            links.setAttribute("height", String(bounds.height));
+            const marks = [];
+            for (let index = 0; index < nodes.length; index++) {
+                const color = nodes[index].dataset.color;
+                if (!color) continue;
+                const col = index % gridCols;
+                const row = Math.floor(index / gridCols);
+                const next = [];
+                if (col < gridCols - 1) next.push(index + 1);
+                if (row < gridRows - 1) next.push(index + gridCols);
+                next.forEach((other) => {
+                    if (nodes[other].dataset.color !== color) return;
+                    const start = nodes[index].getBoundingClientRect();
+                    const end = nodes[other].getBoundingClientRect();
+                    const x1 = start.left + start.width / 2 - bounds.left;
+                    const y1 = start.top + start.height / 2 - bounds.top;
+                    const x2 = end.left + end.width / 2 - bounds.left;
+                    const y2 = end.top + end.height / 2 - bounds.top;
+                    const dx = x2 - x1;
+                    const dy = y2 - y1;
+                    const length = Math.hypot(dx, dy) || 1;
+                    const pad = 8;
+                    const ux = (dx / length) * pad;
+                    const uy = (dy / length) * pad;
+                    marks.push(`<line x1="${x1 + ux}" y1="${y1 + uy}" x2="${x2 - ux}" y2="${y2 - uy}" class="dg-link is-${color}"/>`);
+                });
+            }
+            links.innerHTML = marks.join("");
+        }
+        function lightOne(preferMatch) {
+            const open = [];
+            nodes.forEach((node, index) => { if (!node.dataset.color) open.push(index); });
+            if (!open.length) return;
+            const index = open[Math.floor(Math.random() * open.length)];
+            const matched = neighborsOf(index).filter((item) => nodes[item].dataset.color);
+            const color = preferMatch && matched.length
+                ? nodes[matched[Math.floor(Math.random() * matched.length)]].dataset.color
+                : signalColors[Math.floor(Math.random() * signalColors.length)];
+            paint(index, color);
+            drawLinks();
         }
         function fillGrid(target) {
             target.style.setProperty("--dg-cols", String(gridCols));
@@ -917,23 +1192,27 @@
             return [...target.children];
         }
         function layoutGrid() {
-            const cell = window.matchMedia("(max-width: 599px)").matches ? 46 : 40;
-            const nextCols = Math.max(5, Math.round((stage.clientWidth + 80) / cell));
-            const nextRows = Math.max(4, Math.round((stage.clientHeight + 80) / cell));
+            const cell = window.matchMedia("(max-width: 599px)").matches ? 30 : 26;
+            const nextCols = Math.max(6, Math.round((stage.clientWidth + 80) / cell));
+            const nextRows = Math.max(5, Math.round((stage.clientHeight + 80) / cell));
             if (!stage.clientWidth || !stage.clientHeight || (nextCols === gridCols && nextRows === gridRows)) return;
             gridCols = nextCols;
             gridRows = nextRows;
             nodes = fillGrid(grid);
             blurNodes = fillGrid(blurGrid);
+            farNodes = fillGrid(farGrid);
+            links.innerHTML = "";
             if (reduceMotion) {
-                nodes.forEach((_, index) => { if (index % 5 === 0) setSignal(index, true); });
+                nodes.forEach((_, index) => { if (index % 4 === 0) paint(index, signalColors[index % signalColors.length]); });
+                drawLinks();
             } else {
-                for (let i = 0; i < Math.max(8, Math.round(nodes.length * 0.22)); i++) stepGrid();
+                const seed = Math.max(10, Math.round(nodes.length * 0.16));
+                for (let i = 0; i < seed; i++) lightOne(i > seed * 0.4);
             }
         }
         layoutGrid();
         new ResizeObserver(layoutGrid).observe(stage);
-        if (!reduceMotion) setInterval(stepGrid, 900);
+        if (!reduceMotion) setInterval(() => lightOne(Math.random() < 0.6), 700);
 
         const monitor = document.getElementById("impactViz");
         const lines = window.matchMedia("(max-width: 599px)").matches ? 12 : 18;
@@ -1022,15 +1301,6 @@
                 const botY = H * 0.78;
                 const center = W / 2;
                 const startX = Math.max(24, center - 120);
-
-                ctx.save();
-                ctx.strokeStyle = colors.outline;
-                ctx.setLineDash([2, 4]);
-                ctx.beginPath();
-                ctx.moveTo(center, 12);
-                ctx.lineTo(center, H - 12);
-                ctx.stroke();
-                ctx.restore();
 
                 const p1 = Math.min(1, progress * 2.5);
                 if (p1 > 0) {
