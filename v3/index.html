@@ -35,6 +35,13 @@
             font-style: normal;
             font-display: swap;
         }
+        @font-face {
+            font-family: "Founders Grotesk";
+            src: url("../fonts/Founders_Grotesk/FoundersGrotesk-Medium.otf") format("opentype");
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
 
         :root {
             --cream: #F7F6F1;
@@ -48,7 +55,7 @@
         *, *::before, *::after { box-sizing: border-box; }
         * { margin: 0; padding: 0; }
 
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
 
         body {
             background: var(--cream);
@@ -65,16 +72,49 @@
             background: var(--ink);
             color: var(--cream);
             padding: 8px 12px;
-            z-index: 5;
+            z-index: 8;
         }
         .skip-link:focus { transform: none; }
 
+        .site-bar {
+            position: sticky;
+            top: 0;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px 28px;
+            padding: 16px var(--page);
+            background: var(--cream);
+        }
+        .site-nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 8px 22px;
+        }
+        .site-nav a {
+            font-weight: 300;
+            font-size: 15px;
+            line-height: 1.3;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+        }
+        .site-nav a:hover { color: var(--blue); }
+        .site-nav a:focus-visible,
+        .gap-dot:focus-visible {
+            outline: 2px solid var(--blue);
+            outline-offset: 4px;
+        }
+
         .hero {
-            min-height: 100vh;
-            min-height: 100dvh;
+            min-height: calc(100vh - 68px);
+            min-height: calc(100dvh - 68px);
             display: flex;
             flex-direction: column;
-            padding: 28px var(--page) 32px;
+            padding: 12px var(--page) 32px;
             background: var(--cream);
         }
         .logo { display: inline-flex; width: max-content; }
@@ -107,10 +147,12 @@
             width: calc(108% + var(--page));
             max-width: none;
             height: auto;
+            aspect-ratio: 1120.4944 / 752.809;
             justify-self: end;
             align-self: center;
             margin-right: calc(var(--page) * -1);
         }
+        svg.hero-art { display: block; overflow: visible; }
         .hero-foot {
             display: flex;
             justify-content: space-between;
@@ -182,37 +224,180 @@
             color: rgba(247, 246, 241, 0.78);
         }
 
-        .gap {
-            background: var(--cream);
-            padding: clamp(88px, 14vh, 160px) var(--page) clamp(120px, 18vh, 200px);
-        }
-        .gap-kicker {
-            font-weight: 300;
-            font-size: clamp(18px, 2vw, 26px);
+        .section-kicker {
+            font-weight: 500;
+            font-size: clamp(15px, 1.5vw, 22px);
             line-height: 1.3;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
         }
-        .gap-copy {
-            max-width: 17em;
-            margin-top: clamp(40px, 7vh, 80px);
+        .gap-deck { background: var(--cream); }
+        .gap-pane {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            scroll-snap-align: start;
+            padding: 96px var(--page) 88px;
+            background: var(--cream);
+        }
+        .gap-pane-main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 0.78fr) minmax(260px, 1.22fr);
+            align-items: center;
+            gap: clamp(16px, 3vw, 40px);
+        }
+        .gap-line {
+            max-width: 12em;
+            font-weight: 400;
+            font-size: clamp(28px, 3vw, 44px);
+            line-height: 1.18;
+            letter-spacing: -0.02em;
+        }
+        .gap-stage {
+            position: relative;
+            width: 100%;
+            height: min(64vh, 580px);
+            --target-r: clamp(64px, 6.2vw, 88px);
+            --circle-inset: calc(var(--target-r) * 4.25);
+        }
+        .gap-stage svg {
+            position: absolute;
+            top: 50%;
+            left: calc(100% - var(--circle-inset));
+            overflow: visible;
+            width: calc(var(--vb-w) * var(--target-r) / var(--r));
+            height: calc(var(--vb-h) * var(--target-r) / var(--r));
+            transform: translate(
+                calc(var(--cx) / var(--vb-w) * -100%),
+                calc(var(--cy) / var(--vb-h) * -100%)
+            );
+        }
+        .gap-dots {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 22px;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .gap-dots.is-on { opacity: 1; pointer-events: auto; }
+        .gap-dot {
+            width: 11px;
+            height: 11px;
+            padding: 0;
+            border: 1.5px solid var(--ink);
+            border-radius: 50%;
+            background: transparent;
+            cursor: pointer;
+        }
+        .gap-dot.is-filled { background: var(--ink); }
+
+        .making {
+            background: var(--blue);
+            color: var(--cream);
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+            padding: clamp(96px, 12vh, 140px) var(--page);
+        }
+        .making .section-kicker { color: var(--cream); }
+        .making-kicker {
+            margin-top: clamp(28px, 4vh, 48px);
+            font-weight: 400;
+            font-size: clamp(14px, 1.3vw, 18px);
+            line-height: 1.3;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        .making-copy {
+            max-width: 40em;
+            margin-top: clamp(28px, 4vh, 40px);
             display: grid;
             gap: 1.15em;
-            font-size: clamp(26px, 2.6vw, 36px);
-            line-height: 1.28;
-            letter-spacing: -0.015em;
+            font-size: clamp(18px, 1.7vw, 24px);
+            line-height: 1.4;
+        }
+        .making-figure {
+            align-self: center;
+            display: block;
+            width: min(100%, 880px);
+            height: auto;
+            margin-top: clamp(36px, 6vh, 64px);
+        }
+
+        .system, .practice {
+            background: var(--cream);
+            padding: clamp(96px, 12vh, 140px) var(--page) clamp(80px, 12vh, 140px);
+        }
+        .system-layout {
+            display: grid;
+            grid-template-columns: minmax(140px, 220px) minmax(0, 36em);
+            gap: clamp(12px, 3vw, 36px);
+            align-items: stretch;
+            margin-top: clamp(28px, 5vh, 56px);
+            margin-left: clamp(28px, 3.5vw, 52px);
+        }
+        .system-figure { width: 100%; height: auto; display: block; }
+        .system-items { position: relative; }
+        .system-item {
+            position: absolute;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+        }
+        .system-item:nth-child(1) { top: 29.3%; }
+        .system-item:nth-child(2) { top: 59.6%; }
+        .system-item:nth-child(3) { top: 89.9%; }
+        .system-item h3 {
+            font-weight: 500;
+            font-size: clamp(15px, 1.3vw, 18px);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        .system-item p {
+            max-width: 26em;
+            margin-top: 6px;
+            font-size: clamp(16px, 1.45vw, 20px);
+            line-height: 1.35;
+        }
+        .practice-copy {
+            max-width: 34em;
+            margin-top: clamp(36px, 6vh, 72px);
+            display: grid;
+            gap: 1.25em;
+            font-size: clamp(20px, 2vw, 28px);
+            line-height: 1.35;
         }
 
         @media (max-width: 800px) {
             .hero-main { grid-template-columns: 1fr; align-items: start; row-gap: 28px; }
             .hero h1 { font-size: clamp(44px, 12vw, 72px); }
-            .hero-art { justify-self: stretch; width: 100%; max-height: 42vh; margin-right: 0; object-fit: contain; object-position: left center; }
+            .hero-art { justify-self: stretch; width: 100%; max-width: 100%; max-height: 42vh; margin-right: 0; object-fit: contain; object-position: left center; }
+            svg.hero-art { width: auto; max-width: 100%; }
             .stat-ghost, .stat-ink { white-space: normal; }
             .hero-foot { align-items: start; flex-direction: column; }
+            .site-bar { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .site-nav { justify-content: flex-start; }
+            .hero { min-height: calc(100dvh - 132px); }
+            .gap-pane, .making { padding-top: 168px; }
+            .gap-pane-main { grid-template-columns: 1fr; }
+            .gap-stage { height: min(46vh, 360px); --target-r: 44px; }
+            .system-layout { grid-template-columns: 92px minmax(0, 1fr); }
+            .site-nav a { letter-spacing: 0.1em; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            html { scroll-behavior: auto; }
+            html { scroll-behavior: auto; scroll-snap-type: none; }
             .stat-ink { clip-path: none; }
         }
     </style>
@@ -220,11 +405,19 @@
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-bar">
+        <a class="logo" href="#hero" aria-label="CCQ, home">
+            <span class="logo-mark" aria-hidden="true"></span>
+        </a>
+        <nav class="site-nav" aria-label="Sections">
+            <a href="#gap">The visibility gap</a>
+            <a href="#visible">Making communication visible</a>
+            <a href="#system">System-level</a>
+            <a href="#practice">Practice</a>
+        </nav>
+    </header>
     <main id="main">
-        <header class="hero">
-            <a class="logo" href="#main" aria-label="CCQ, home">
-                <span class="logo-mark" aria-hidden="true"></span>
-            </a>
+        <header class="hero" id="hero">
             <div class="hero-main">
                 <h1>What if<br>every<br>conversation<br>made<br>care better?</h1>
                 <img class="hero-art" src="../HeroImage-01.svg" alt="">
@@ -244,14 +437,83 @@
             <p class="source">SOURCE: Candello, Malpractice Risks in Communication Failures. (2025)</p>
         </section>
 
-        <section class="gap" aria-labelledby="gap-kicker">
-            <h2 class="gap-kicker" id="gap-kicker">The visibility gap</h2>
-            <div class="gap-copy">
-                <p>Some of the most consequential moments in healthcare happen in conversation.</p>
-                <p>But healthcare organizations have limited tools to understand whether clinical communication supported well-informed, patient-centered care.</p>
-                <p>Current approaches rely largely on information around the encounter rather than the conversation itself.</p>
+        <section class="gap-deck" id="gap" aria-label="The visibility gap">
+            <article class="gap-pane" id="gap-1">
+                <h2 class="section-kicker">I — The visibility gap</h2>
+                <div class="gap-pane-main">
+                    <p class="gap-line">Some of the most consequential moments in healthcare happen in conversation.</p>
+                    <div class="gap-stage" data-src="../VisibilityGap_1-01.svg"></div>
+                </div>
+            </article>
+            <article class="gap-pane" id="gap-2">
+                <h2 class="section-kicker">I — The visibility gap</h2>
+                <div class="gap-pane-main">
+                    <p class="gap-line">Downstream signals offer indirect, often retrospective views.</p>
+                    <div class="gap-stage" data-src="../VisibilityGap_2-01.svg"></div>
+                </div>
+            </article>
+            <article class="gap-pane" id="gap-3">
+                <h2 class="section-kicker">I — The visibility gap</h2>
+                <div class="gap-pane-main">
+                    <p class="gap-line">Records around the encounter are an incomplete picture of what transpired.</p>
+                    <div class="gap-stage" data-src="../VisibilityGap_3-01.svg"></div>
+                </div>
+            </article>
+            <article class="gap-pane" id="gap-4">
+                <h2 class="section-kicker">I — The visibility gap</h2>
+                <div class="gap-pane-main">
+                    <p class="gap-line">Yet, the conversation itself remains difficult to examine systematically.</p>
+                    <div class="gap-stage" data-src="../VisibilityGap_4-01.svg"></div>
+                </div>
+            </article>
+        </section>
+        <div class="gap-dots" aria-hidden="false">
+            <button class="gap-dot" type="button" aria-label="Visibility gap, pane 1"></button>
+            <button class="gap-dot" type="button" aria-label="Visibility gap, pane 2"></button>
+            <button class="gap-dot" type="button" aria-label="Visibility gap, pane 3"></button>
+            <button class="gap-dot" type="button" aria-label="Visibility gap, pane 4"></button>
+        </div>
+
+        <section class="making" id="visible" aria-labelledby="visible-kicker">
+            <h2 class="section-kicker" id="visible-kicker">II — Making communication visible</h2>
+            <p class="making-kicker">Decision communication intelligence</p>
+            <div class="making-copy">
+                <p>We identify discrete treatment decisions within clinical conversation transcripts generated by existing ambient systems and decompose them into constituent elements linked to supporting dialogue.</p>
+                <p>Our structured, evidence-linked representation establishes a consistent basis for examining the content, structure, and quality of decision communication across similar decisions.</p>
+            </div>
+            <img class="making-figure" src="../MakingCommunicationVisible-01.svg" alt="Structured representation of decision communication. A decision links a recommendation and preferences to option A and option B, each with risks, benefits, and burdens.">
+        </section>
+
+        <section class="system" id="system" aria-labelledby="system-kicker">
+            <h2 class="section-kicker" id="system-kicker">III — System-level applications</h2>
+            <div class="system-layout">
+                <img class="system-figure" src="../System-Level-01.svg" alt="">
+                <div class="system-items">
+                    <article class="system-item">
+                        <h3>Identify</h3>
+                        <p>Detect recurring communication gaps and variation.</p>
+                    </article>
+                    <article class="system-item">
+                        <h3>Support</h3>
+                        <p>Inform targeted feedback and communication improvement.</p>
+                    </article>
+                    <article class="system-item">
+                        <h3>Connect</h3>
+                        <p>Explore links between communication patterns, patient experience, and risk.</p>
+                    </article>
+                </div>
             </div>
         </section>
+
+        <section class="practice" id="practice" aria-labelledby="practice-kicker">
+            <h2 class="section-kicker" id="practice-kicker">Informed by practice</h2>
+            <div class="practice-copy">
+                <p>We are a physician, an operator, and a technologist, each with firsthand experience across care delivery and the systems that support it.</p>
+                <p>At the center of our work is the belief that conversations shape care quality and are strengthened by learning from them.</p>
+                <p>Our mission is to make clinical conversations a systematic source of organizational insight through technology that is clinically grounded, analytically rigorous, and thoughtfully designed for the realities of healthcare.</p>
+            </div>
+        </section>
+
     </main>
     <script>
         const stat = document.getElementById("statFigure");
@@ -274,8 +536,135 @@
         if (!reduceMotion) {
             window.addEventListener("scroll", paintStat, { passive: true });
             window.addEventListener("resize", paintStat);
+            drawHero();
         }
         if (document.fonts) document.fonts.ready.then(paintStat);
+
+        function drawHero() {
+            const img = document.querySelector("img.hero-art");
+            if (!img) return;
+            img.style.visibility = "hidden";
+            fetch(img.src)
+                .then((response) => response.text())
+                .then((markup) => {
+                    const svg = new DOMParser().parseFromString(markup, "image/svg+xml").documentElement;
+                    if (!svg || svg.querySelector("parsererror")) throw new Error("hero");
+                    svg.setAttribute("class", "hero-art");
+                    svg.setAttribute("aria-hidden", "true");
+                    const path = svg.querySelector("path");
+                    img.replaceWith(svg);
+                    const length = path.getTotalLength();
+                    path.style.strokeDasharray = String(length);
+                    path.style.strokeDashoffset = String(length);
+                    svg.style.visibility = "visible";
+                    path.animate(
+                        [{ strokeDashoffset: length }, { strokeDashoffset: 0 }],
+                        { duration: 5400, easing: "ease-in-out", fill: "forwards" }
+                    );
+                })
+                .catch(() => { img.style.visibility = "visible"; });
+        }
+
+        const panes = [...document.querySelectorAll(".gap-pane")];
+        const dots = [...document.querySelectorAll(".gap-dot")];
+        const dotBar = document.querySelector(".gap-dots");
+        dots.forEach((dot, index) => {
+            dot.addEventListener("click", () => {
+                panes[index].scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+            });
+        });
+        if ("IntersectionObserver" in window) {
+            const paneWatch = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting || entry.intersectionRatio < 0.55) return;
+                    const index = panes.indexOf(entry.target);
+                    dots.forEach((dot, n) => {
+                        dot.classList.toggle("is-filled", n <= index);
+                        dot.setAttribute("aria-current", n === index ? "true" : "false");
+                    });
+                });
+            }, { threshold: 0.55 });
+            panes.forEach((pane) => paneWatch.observe(pane));
+            const deckWatch = new IntersectionObserver((entries) => {
+                dotBar.classList.toggle("is-on", entries.some((entry) => entry.isIntersecting));
+            }, { threshold: 0.12 });
+            deckWatch.observe(document.getElementById("gap"));
+        }
+
+        const SVG_NS = "http://www.w3.org/2000/svg";
+
+        const visibleStages = new Set();
+
+        function stageIsOnScreen(stage) {
+            const box = stage.getBoundingClientRect();
+            return box.bottom > 0 && box.top < window.innerHeight;
+        }
+
+        function addTurn(svg) {
+            svg.querySelectorAll("ellipse").forEach((ellipse, index) => {
+                const cx = ellipse.cx.baseVal.value;
+                const cy = ellipse.cy.baseVal.value;
+                const group = document.createElementNS(SVG_NS, "g");
+                ellipse.parentNode.insertBefore(group, ellipse);
+                group.appendChild(ellipse);
+                group.style.transformBox = "view-box";
+                group.style.transformOrigin = `${cx}px ${cy}px`;
+                const direction = index % 2 === 0 ? 360 : -360;
+                group.animate(
+                    [{ transform: "rotate(0deg)" }, { transform: `rotate(${direction}deg)` }],
+                    { duration: (16 + index * 7) * 1000, iterations: Infinity, easing: "linear" }
+                );
+            });
+        }
+
+        function syncTurns(stage) {
+            if (reduceMotion) return;
+            const svg = stage.querySelector("svg");
+            if (!svg) return;
+            if (!svg.dataset.turned) {
+                addTurn(svg);
+                svg.dataset.turned = "1";
+            }
+            const running = visibleStages.has(stage);
+            svg.getAnimations({ subtree: true }).forEach((anim) => {
+                if (running && anim.playState !== "running") anim.play();
+                else if (!running && anim.playState === "running") anim.pause();
+            });
+        }
+
+        function refreshTurns() {
+            document.querySelectorAll(".gap-stage").forEach((stage) => {
+                if (stageIsOnScreen(stage)) visibleStages.add(stage);
+                else visibleStages.delete(stage);
+                syncTurns(stage);
+            });
+        }
+
+        if ("IntersectionObserver" in window) {
+            const turnWatch = new IntersectionObserver(() => refreshTurns(), { threshold: [0, 0.15] });
+            document.querySelectorAll(".gap-stage").forEach((stage) => turnWatch.observe(stage));
+        }
+        window.addEventListener("pageshow", refreshTurns);
+        window.addEventListener("scroll", refreshTurns, { passive: true });
+
+        document.querySelectorAll(".gap-stage").forEach((stage) => {
+            fetch(stage.dataset.src)
+                .then((response) => response.text())
+                .then((markup) => {
+                    const svg = new DOMParser().parseFromString(markup, "image/svg+xml").documentElement;
+                    svg.removeAttribute("id");
+                    svg.setAttribute("aria-hidden", "true");
+                    const box = svg.viewBox.baseVal;
+                    const circle = svg.querySelector("circle");
+                    svg.style.setProperty("--vb-w", box.width);
+                    svg.style.setProperty("--vb-h", box.height);
+                    svg.style.setProperty("--cx", circle.cx.baseVal.value);
+                    svg.style.setProperty("--cy", circle.cy.baseVal.value);
+                    svg.style.setProperty("--r", circle.r.baseVal.value);
+                    stage.appendChild(svg);
+                    refreshTurns();
+                });
+        });
     </script>
 </body>
 </html>
