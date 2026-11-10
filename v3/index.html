@@ -103,10 +103,54 @@
             text-decoration: none;
         }
         .site-nav a:hover { color: var(--blue); }
+        .site-nav a.is-current {
+            color: var(--blue);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 6px;
+        }
         .site-nav a:focus-visible,
+        .nav-toggle:focus-visible,
         .gap-dot:focus-visible {
             outline: 2px solid var(--blue);
             outline-offset: 4px;
+        }
+        .nav-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            margin-right: -10px;
+            border: 0;
+            background: transparent;
+            color: var(--ink);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-toggle-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 20px;
+        }
+        .nav-toggle-icon span {
+            display: block;
+            height: 1.5px;
+            background: currentColor;
+            transform-origin: center;
+            transition: transform 160ms ease, opacity 160ms ease;
+        }
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         .hero {
@@ -198,13 +242,11 @@
         }
         .stat-ghost {
             color: transparent;
-            -webkit-text-stroke: 1.5px rgba(247, 246, 241, 0.42);
         }
         .stat-ink {
             position: absolute;
             inset: 0;
             color: var(--cream);
-            -webkit-text-stroke: 1.5px var(--cream);
             clip-path: inset(calc(100% - var(--fill, 0%)) -4px -4px -4px);
         }
         .stat-copy {
@@ -238,7 +280,7 @@
             display: flex;
             flex-direction: column;
             scroll-snap-align: start;
-            padding: 96px var(--page) 88px;
+            padding: 128px var(--page) 88px;
             background: var(--cream);
         }
         .gap-pane-main {
@@ -308,7 +350,7 @@
             justify-content: center;
             align-items: flex-start;
             text-align: left;
-            padding: clamp(96px, 12vh, 140px) var(--page);
+            padding: clamp(128px, 14vh, 168px) var(--page) clamp(96px, 12vh, 140px);
         }
         .making .section-kicker { color: var(--cream); }
         .making-kicker {
@@ -337,17 +379,32 @@
 
         .system, .practice {
             background: var(--cream);
-            padding: clamp(96px, 12vh, 140px) var(--page) clamp(80px, 12vh, 140px);
+            padding: clamp(128px, 14vh, 168px) var(--page) clamp(80px, 12vh, 140px);
         }
         .system-layout {
             display: grid;
-            grid-template-columns: minmax(140px, 220px) minmax(0, 36em);
+            grid-template-columns: auto minmax(0, 36em);
             gap: clamp(12px, 3vw, 36px);
             align-items: stretch;
+            justify-content: start;
             margin-top: clamp(28px, 5vh, 56px);
             margin-left: clamp(28px, 3.5vw, 52px);
         }
-        .system-figure { width: 100%; height: auto; display: block; }
+        .system-art {
+            --vb-w: 267.7809;
+            --vb-h: 890.9111;
+            --art-h: clamp(440px, 64vh, 760px);
+            --shaft: clamp(64px, 16vw, 240px);
+            position: relative;
+            justify-self: start;
+            width: calc(var(--art-h) * var(--vb-w) / var(--vb-h) + var(--shaft));
+            height: var(--art-h);
+        }
+        .system-svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
         .system-items { position: relative; }
         .system-item {
             position: absolute;
@@ -360,14 +417,14 @@
         .system-item:nth-child(3) { top: 89.9%; }
         .system-item h3 {
             font-weight: 500;
-            font-size: clamp(15px, 1.3vw, 18px);
+            font-size: clamp(13px, 1.85vw, 24px);
             letter-spacing: 0.14em;
             text-transform: uppercase;
         }
         .system-item p {
             max-width: 26em;
             margin-top: 6px;
-            font-size: clamp(16px, 1.45vw, 20px);
+            font-size: clamp(14px, 2vw, 26px);
             line-height: 1.35;
         }
         .practice-copy {
@@ -379,6 +436,98 @@
             line-height: 1.35;
         }
 
+        .demo {
+            background: var(--cream);
+            padding: clamp(56px, 8vh, 96px) var(--page) clamp(96px, 14vh, 160px);
+        }
+        .demo-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, 420px);
+            gap: clamp(32px, 5vw, 72px);
+            align-items: start;
+        }
+        .demo-title {
+            max-width: 8em;
+            font-family: "Tiempos Text", Georgia, "Times New Roman", serif;
+            font-weight: 400;
+            font-size: clamp(48px, 5.2vw, 84px);
+            line-height: 1.02;
+            letter-spacing: -0.02em;
+            color: var(--blue);
+        }
+        .demo-lead {
+            max-width: 16em;
+            margin-top: clamp(24px, 3vh, 40px);
+            font-size: clamp(20px, 1.8vw, 28px);
+            line-height: 1.35;
+        }
+        .demo-form {
+            display: grid;
+            gap: 18px;
+            border: 1px solid var(--ink);
+            padding: clamp(24px, 3vw, 36px);
+        }
+        .demo-field { display: grid; gap: 6px; }
+        .demo-field span {
+            font-weight: 500;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .demo-field input {
+            width: 100%;
+            border: 0;
+            border-bottom: 1px solid rgba(22, 22, 22, 0.4);
+            border-radius: 0;
+            background: transparent;
+            color: var(--ink);
+            font: inherit;
+            font-size: 18px;
+            line-height: 1.4;
+            padding: 8px 0;
+        }
+        .demo-field input:focus {
+            outline: none;
+            border-bottom-color: var(--blue);
+        }
+        .demo-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px 24px;
+            margin-top: 8px;
+        }
+        .demo-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 22px;
+            border: 0;
+            background: var(--blue);
+            color: var(--cream);
+            font: inherit;
+            font-weight: 500;
+            font-size: 15px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        .demo-button:hover { background: var(--ink); }
+        .demo-button:focus-visible,
+        .demo-inquiry:focus-visible {
+            outline: 2px solid var(--blue);
+            outline-offset: 4px;
+        }
+        .demo-inquiry {
+            font-weight: 400;
+            font-size: 14px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+        }
+        .demo-inquiry:hover { color: var(--blue); }
+
         @media (max-width: 800px) {
             .hero-main { grid-template-columns: 1fr; align-items: start; row-gap: 28px; }
             .hero h1 { font-size: clamp(44px, 12vw, 72px); }
@@ -386,19 +535,44 @@
             svg.hero-art { width: auto; max-width: 100%; }
             .stat-ghost, .stat-ink { white-space: normal; }
             .hero-foot { align-items: start; flex-direction: column; }
-            .site-bar { flex-direction: column; align-items: flex-start; gap: 12px; }
-            .site-nav { justify-content: flex-start; }
-            .hero { min-height: calc(100dvh - 132px); }
-            .gap-pane, .making { padding-top: 168px; }
             .gap-pane-main { grid-template-columns: 1fr; }
             .gap-stage { height: min(46vh, 360px); --target-r: 44px; }
-            .system-layout { grid-template-columns: 92px minmax(0, 1fr); }
-            .site-nav a { letter-spacing: 0.1em; }
+            .system-layout { grid-template-columns: auto minmax(0, 1fr); }
+            .system-art { --art-h: min(48vh, 400px); --shaft: clamp(32px, 10vw, 72px); }
+            .demo-layout { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 860px) {
+            .nav-toggle { display: inline-flex; }
+            .site-bar.is-open .nav-toggle-icon span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+            .site-bar.is-open .nav-toggle-icon span:nth-child(2) { opacity: 0; }
+            .site-bar.is-open .nav-toggle-icon span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+            .site-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                padding: 4px var(--page) 16px;
+                background: var(--cream);
+                box-shadow: 0 18px 32px rgba(22, 22, 22, 0.08);
+            }
+            .site-bar.is-open .site-nav { display: flex; }
+            .site-nav a {
+                width: 100%;
+                padding: 13px 0;
+                font-size: 17px;
+                letter-spacing: 0.12em;
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; scroll-snap-type: none; }
             .stat-ink { clip-path: none; }
+            .nav-toggle-icon span { transition: none; }
         }
     </style>
     <noscript><style>.stat-ink { clip-path: none; }</style></noscript>
@@ -409,11 +583,16 @@
         <a class="logo" href="#hero" aria-label="CCQ, home">
             <span class="logo-mark" aria-hidden="true"></span>
         </a>
-        <nav class="site-nav" aria-label="Sections">
-            <a href="#gap">The visibility gap</a>
-            <a href="#visible">Making communication visible</a>
-            <a href="#system">System-level</a>
-            <a href="#practice">Practice</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="visually-hidden">Menu</span>
+        </button>
+        <nav class="site-nav" id="site-nav" aria-label="Sections">
+            <a href="#stat" data-nav="problem">Problem</a>
+            <a href="#visible" data-nav="approach">Approach</a>
+            <a href="#system" data-nav="applications">Applications</a>
+            <a href="#practice" data-nav="about">About</a>
+            <a href="#demo" data-nav="demo">Request a Demo</a>
         </nav>
     </header>
     <main id="main">
@@ -439,28 +618,28 @@
 
         <section class="gap-deck" id="gap" aria-label="The visibility gap">
             <article class="gap-pane" id="gap-1">
-                <h2 class="section-kicker">I — The visibility gap</h2>
+                <h2 class="section-kicker">The visibility gap</h2>
                 <div class="gap-pane-main">
                     <p class="gap-line">Some of the most consequential moments in healthcare happen in conversation.</p>
                     <div class="gap-stage" data-src="../VisibilityGap_1-01.svg"></div>
                 </div>
             </article>
             <article class="gap-pane" id="gap-2">
-                <h2 class="section-kicker">I — The visibility gap</h2>
+                <h2 class="section-kicker">The visibility gap</h2>
                 <div class="gap-pane-main">
                     <p class="gap-line">Downstream signals offer indirect, often retrospective views.</p>
                     <div class="gap-stage" data-src="../VisibilityGap_2-01.svg"></div>
                 </div>
             </article>
             <article class="gap-pane" id="gap-3">
-                <h2 class="section-kicker">I — The visibility gap</h2>
+                <h2 class="section-kicker">The visibility gap</h2>
                 <div class="gap-pane-main">
                     <p class="gap-line">Records around the encounter are an incomplete picture of what transpired.</p>
                     <div class="gap-stage" data-src="../VisibilityGap_3-01.svg"></div>
                 </div>
             </article>
             <article class="gap-pane" id="gap-4">
-                <h2 class="section-kicker">I — The visibility gap</h2>
+                <h2 class="section-kicker">The visibility gap</h2>
                 <div class="gap-pane-main">
                     <p class="gap-line">Yet, the conversation itself remains difficult to examine systematically.</p>
                     <div class="gap-stage" data-src="../VisibilityGap_4-01.svg"></div>
@@ -475,7 +654,7 @@
         </div>
 
         <section class="making" id="visible" aria-labelledby="visible-kicker">
-            <h2 class="section-kicker" id="visible-kicker">II — Making communication visible</h2>
+            <h2 class="section-kicker" id="visible-kicker">Making communication visible</h2>
             <p class="making-kicker">Decision communication intelligence</p>
             <div class="making-copy">
                 <p>We identify discrete treatment decisions within clinical conversation transcripts generated by existing ambient systems and decompose them into constituent elements linked to supporting dialogue.</p>
@@ -485,9 +664,9 @@
         </section>
 
         <section class="system" id="system" aria-labelledby="system-kicker">
-            <h2 class="section-kicker" id="system-kicker">III — System-level applications</h2>
+            <h2 class="section-kicker" id="system-kicker">System-level applications</h2>
             <div class="system-layout">
-                <img class="system-figure" src="../System-Level-01.svg" alt="">
+                <div class="system-art" id="systemArt"></div>
                 <div class="system-items">
                     <article class="system-item">
                         <h3>Identify</h3>
@@ -514,6 +693,33 @@
             </div>
         </section>
 
+        <section class="demo" id="demo" aria-labelledby="demo-title">
+            <div class="demo-layout">
+                <div>
+                    <h2 class="demo-title" id="demo-title">Let’s start<br>a conversation.</h2>
+                    <p class="demo-lead">Connect with us to explore what visibility into clinical communication could mean for your organization.</p>
+                </div>
+                <form class="demo-form" id="demoForm">
+                    <label class="demo-field">
+                        <span>Name</span>
+                        <input name="name" type="text" autocomplete="name" required>
+                    </label>
+                    <label class="demo-field">
+                        <span>Email</span>
+                        <input name="email" type="email" autocomplete="email" inputmode="email" required>
+                    </label>
+                    <label class="demo-field">
+                        <span>Organization</span>
+                        <input name="organization" type="text" autocomplete="organization">
+                    </label>
+                    <div class="demo-actions">
+                        <button class="demo-button" type="submit">Get in Touch</button>
+                        <a class="demo-inquiry" href="mailto:info@ccqsys.com?subject=General%20inquiry">General inquiries</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+
     </main>
     <script>
         const stat = document.getElementById("statFigure");
@@ -532,7 +738,191 @@
             stat.style.setProperty("--fill", (Math.min(1.12, progress * 1.12) * 100).toFixed(1) + "%");
         }
 
+        const siteBar = document.querySelector(".site-bar");
+        const navToggle = document.querySelector(".nav-toggle");
+        const navToggleLabel = navToggle.querySelector(".visually-hidden");
+        const navMenu = window.matchMedia("(max-width: 860px)");
+
+        function setNavOpen(open) {
+            siteBar.classList.toggle("is-open", open);
+            navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+            navToggleLabel.textContent = open ? "Close menu" : "Menu";
+        }
+
+        navToggle.addEventListener("click", () => {
+            setNavOpen(navToggle.getAttribute("aria-expanded") !== "true");
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") setNavOpen(false);
+        });
+        document.addEventListener("click", (event) => {
+            if (!siteBar.contains(event.target)) setNavOpen(false);
+        });
+        navMenu.addEventListener("change", (event) => {
+            if (!event.matches) setNavOpen(false);
+        });
+
+        const navLinks = [...document.querySelectorAll(".site-nav a")];
+        navLinks.forEach((link) => link.addEventListener("click", () => setNavOpen(false)));
+        const navSpots = [
+            [document.getElementById("stat"), "problem"],
+            [document.getElementById("gap"), "problem"],
+            [document.getElementById("visible"), "approach"],
+            [document.getElementById("system"), "applications"],
+            [document.getElementById("practice"), "about"],
+            [document.getElementById("demo"), "demo"]
+        ];
+
+        function highlightNav() {
+            const probe = window.innerHeight * 0.35;
+            const atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+            let current = null;
+            navSpots.forEach(([section, key]) => {
+                const box = section.getBoundingClientRect();
+                if (box.top <= probe && box.bottom >= probe) current = key;
+            });
+            if (atEnd) current = navSpots[navSpots.length - 1][1];
+            navLinks.forEach((link) => {
+                const on = link.dataset.nav === current;
+                link.classList.toggle("is-current", on);
+                if (on) link.setAttribute("aria-current", "true");
+                else link.removeAttribute("aria-current");
+            });
+        }
+
+        document.getElementById("demoForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            const data = new FormData(event.currentTarget);
+            const lines = [
+                `Name: ${data.get("name").trim()}`,
+                `Email: ${data.get("email").trim()}`
+            ];
+            const organization = data.get("organization").trim();
+            if (organization) lines.push(`Organization: ${organization}`);
+            window.location.href = `mailto:info@ccqsys.com?subject=${encodeURIComponent("Demo request")}&body=${encodeURIComponent(lines.join("\n"))}`;
+        });
+
+        const systemArt = document.getElementById("systemArt");
+        const systemVB = { w: 267.7809, h: 890.9111, anchor: 27 };
+
+        function ribbonSpan(d, x) {
+            const scale = 8;
+            const canvas = document.createElement("canvas");
+            canvas.width = 1;
+            canvas.height = Math.ceil(systemVB.h * scale);
+            const ctx = canvas.getContext("2d");
+            ctx.scale(scale, scale);
+            ctx.translate(-x, 0);
+            ctx.fill(new Path2D(d));
+            const data = ctx.getImageData(0, 0, 1, canvas.height).data;
+            let y0 = -1;
+            let y1 = -1;
+            for (let y = 0; y < canvas.height; y++) {
+                if (data[y * 4 + 3] > 200) {
+                    if (y0 < 0) y0 = y;
+                    y1 = y;
+                }
+            }
+            if (y0 < 0) return null;
+            return { y: y0 / scale, height: (y1 - y0 + 1) / scale };
+        }
+
+        function stretchSystem() {
+            const svg = systemArt.querySelector("svg");
+            if (!svg) return;
+            const height = systemArt.getBoundingClientRect().height;
+            if (!height) return;
+            const probe = systemArt.appendChild(document.createElement("span"));
+            probe.style.cssText = "position:absolute;width:var(--shaft);height:0;overflow:hidden";
+            const shaft = probe.getBoundingClientRect().width;
+            probe.remove();
+            const unit = height / systemVB.h;
+            const sx = 1 + shaft / ((systemVB.w - systemVB.anchor) * unit);
+            const right = systemVB.w + shaft / unit;
+            svg.setAttribute("viewBox", `0 0 ${right} ${systemVB.h}`);
+            const stretch = `translate(${systemVB.anchor} 0) scale(${sx} 1) translate(${-systemVB.anchor} 0)`;
+            svg.querySelectorAll(".system-ribbon").forEach((group) => {
+                group.querySelector(".system-ribbon-shape").setAttribute("transform", stretch);
+                const edge = Number(group.dataset.cx) + Number(group.dataset.bw) / 2;
+                const shift = (Number(group.dataset.cx) - systemVB.anchor) * (sx - 1);
+                const clipId = group.getAttribute("clip-path").slice(5, -1);
+                const clipRect = document.getElementById(clipId).querySelector("rect");
+                clipRect.setAttribute("x", -40);
+                clipRect.setAttribute("width", edge + shift + 40);
+            });
+            svg.querySelectorAll(".system-bar").forEach((bar) => {
+                const shift = (Number(bar.dataset.cx) - systemVB.anchor) * (sx - 1);
+                bar.setAttribute("transform", `translate(${shift} 0)`);
+            });
+        }
+
+        function loadSystemArt() {
+            fetch("../System-Level-01.svg")
+                .then((response) => response.text())
+                .then((markup) => {
+                    const source = new DOMParser().parseFromString(markup, "image/svg+xml").documentElement;
+                    const ns = "http://www.w3.org/2000/svg";
+                    const svg = document.createElementNS(ns, "svg");
+                    svg.setAttribute("class", "system-svg");
+                    svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
+                    svg.setAttribute("aria-hidden", "true");
+                    const defs = document.importNode(source.querySelector("defs"), true);
+                    svg.appendChild(defs);
+                    const bars = [...source.querySelectorAll(".system-bar")].map((bar) => document.importNode(bar, true));
+                    svg.append(...bars);
+                    systemArt.replaceChildren(svg);
+                    const metrics = bars.map((bar) => {
+                        const box = bar.getBBox();
+                        bar.remove();
+                        return { cx: box.x + box.width / 2, w: box.width, left: box.x, right: box.x + box.width };
+                    });
+                    const ribbons = [...source.querySelectorAll("path")].filter((path) => (path.getAttribute("fill") || "").startsWith("url"));
+                    ribbons.forEach((path, index) => {
+                        const fill = path.getAttribute("fill");
+                        const bar = metrics[fill === "url(#linear-gradient-2)" ? 0 : fill === "url(#linear-gradient-3)" ? 1 : 2];
+                        const end = ribbonSpan(path.getAttribute("d"), bar.left - 1) || { y: bar.left, height: 0 };
+                        const clip = document.createElementNS(ns, "clipPath");
+                        clip.id = `system-ribbon-clip-${index}`;
+                        const clipRect = document.createElementNS(ns, "rect");
+                        clipRect.setAttribute("x", -40);
+                        clipRect.setAttribute("y", -20);
+                        clipRect.setAttribute("width", systemVB.w + 40);
+                        clipRect.setAttribute("height", systemVB.h + 40);
+                        clip.appendChild(clipRect);
+                        defs.appendChild(clip);
+                        const group = document.createElementNS(ns, "g");
+                        group.setAttribute("class", "system-ribbon");
+                        group.dataset.cx = bar.cx;
+                        group.dataset.bw = bar.w;
+                        group.setAttribute("clip-path", `url(#system-ribbon-clip-${index})`);
+                        const shape = document.createElementNS(ns, "g");
+                        shape.setAttribute("class", "system-ribbon-shape");
+                        shape.appendChild(document.importNode(path, true));
+                        const tail = document.createElementNS(ns, "rect");
+                        tail.setAttribute("x", bar.left - 1);
+                        tail.setAttribute("y", end.y);
+                        tail.setAttribute("width", bar.w + 6);
+                        tail.setAttribute("height", end.height);
+                        tail.setAttribute("fill", fill);
+                        shape.appendChild(tail);
+                        group.appendChild(shape);
+                        svg.appendChild(group);
+                    });
+                    bars.forEach((bar, index) => {
+                        bar.dataset.cx = metrics[index].cx;
+                        svg.appendChild(bar);
+                    });
+                    svg.appendChild(document.importNode(source.querySelector("circle"), true));
+                    stretchSystem();
+                });
+            window.addEventListener("resize", stretchSystem);
+        }
+
         paintStat();
+        highlightNav();
+        window.addEventListener("scroll", highlightNav, { passive: true });
+        window.addEventListener("resize", highlightNav);
+        loadSystemArt();
         if (!reduceMotion) {
             window.addEventListener("scroll", paintStat, { passive: true });
             window.addEventListener("resize", paintStat);
