@@ -55,7 +55,7 @@
         *, *::before, *::after { box-sizing: border-box; }
         * { margin: 0; padding: 0; }
 
-        html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+        html { scroll-behavior: smooth; }
 
         body {
             background: var(--cream);
@@ -91,11 +91,12 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-end;
-            gap: 8px 22px;
+            gap: 8px 30px;            
         }
         .site-nav a {
-            font-weight: 300;
-            font-size: 15px;
+            font-weight: 400;
+            /* font-size: 15px; */
+            font-size: clamp(14px, 0.9cqi, 24px);
             line-height: 1.3;
             letter-spacing: 0.15em;
             text-transform: uppercase;
@@ -103,6 +104,9 @@
             text-decoration: none;
         }
         .site-nav a:hover { color: var(--blue); }
+        @media (min-width: 861px) {
+            .site-nav a { transform: translateY(0.18em); }
+        }
         .site-nav a.is-current {
             color: var(--blue);
             text-decoration: underline;
@@ -182,13 +186,13 @@
         .hero h1 {
             font-family: "Tiempos Text", Georgia, "Times New Roman", serif;
             font-weight: 400;
-            font-size: clamp(40px, 8.6cqi, 180px);
+            font-size: clamp(40px, 8.6cqi, 140px);
             line-height: 0.96;
             letter-spacing: -0.02em;
             color: var(--blue);
         }
         .hero-art {
-            width: calc(108% + var(--page));
+            width: calc(106% + var(--page));
             max-width: none;
             height: auto;
             aspect-ratio: 1120.4944 / 752.809;
@@ -205,7 +209,7 @@
         }
         .track {
             font-weight: 300;
-            font-size: 12px;
+            font-size: clamp(14px, 0.9cqi, 24px);
             line-height: 1.4;
             letter-spacing: 0.15em;
             text-transform: uppercase;
@@ -219,6 +223,7 @@
         }
 
         .stat-section {
+            --stat-size: clamp(60px, 23.5vw, 260px);
             background: var(--rose);
             color: var(--cream);
             padding: clamp(72px, 12vh, 140px) var(--page) clamp(64px, 10vh, 120px);
@@ -233,7 +238,7 @@
             display: block;
             font-family: "Tiempos Headline", Georgia, "Times New Roman", serif;
             font-weight: 900;
-            font-size: clamp(64px, 14.5vw, 196px);
+            font-size: var(--stat-size);
             line-height: 1;
             letter-spacing: -0.035em;
             white-space: nowrap;
@@ -251,16 +256,18 @@
         }
         .stat-copy {
             max-width: 8.7em;
-            margin-top: clamp(28px, 5vh, 56px);
+            margin-top: clamp(28px, 5vh, 40px);
+            margin-left: calc(var(--stat-size) * 0.4885);
             font-weight: 300;
-            font-size: clamp(32px, 4.4vw, 64px);
+            font-size: clamp(32px, 8.1vw, 100px);
             line-height: 1.12;
             letter-spacing: -0.02em;
         }
         .source {
             margin-top: clamp(36px, 6vh, 72px);
+            margin-left: calc(var(--stat-size) * 0.4885);
             font-weight: 300;
-            font-size: 12px;
+            font-size: clamp(9px, 1vw, 18x);
             line-height: 1.4;
             letter-spacing: 0.1em;
             color: rgba(247, 246, 241, 0.78);
@@ -268,70 +275,57 @@
 
         .section-kicker {
             font-weight: 500;
-            font-size: clamp(15px, 1.5vw, 22px);
+            font-size: clamp(15px, 1.5vw, 32px);
             line-height: 1.3;
             letter-spacing: 0.15em;
             text-transform: uppercase;
         }
         .gap-deck {
             position: relative;
-            height: 400dvh;
             background: var(--cream);
         }
-        .gap-sticky {
+        .gap-kicker {
+            --kicker-top: 132px;
             position: sticky;
-            top: 0;
-            z-index: 1;
-            height: 100vh;
-            height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            padding: 128px var(--page) 88px;
+            top: var(--kicker-top);
+            z-index: 3;
+            width: max-content;
+            margin: var(--kicker-top) 0 0;
+            padding: 12px var(--page) 0;
             background: var(--cream);
         }
-        .gap-snap {
-            position: absolute;
-            left: 0;
-            width: 100%;
-            height: 100dvh;
-            scroll-snap-align: start;
-            pointer-events: none;
-        }
-        #gap-1 { top: 0; }
-        #gap-2 { top: 100dvh; }
-        #gap-3 { top: 200dvh; }
-        #gap-4 { top: 300dvh; }
-        .gap-pane-main {
-            flex: 1;
+        .gap-scrolly {
             display: grid;
             grid-template-columns: minmax(0, 0.78fr) minmax(260px, 1.22fr);
-            align-items: center;
-            gap: clamp(16px, 3vw, 40px);
+            align-items: stretch;
         }
-        .gap-lines {
-            position: relative;
-            height: clamp(220px, 34vh, 320px);
-            overflow: hidden;
-        }
-        .gap-line {
-            position: absolute;
+        .gap-copy { position: relative; z-index: 1; grid-column: 1 / -1; grid-row: 1; }
+        .gap-side { position: relative; z-index: 2; grid-column: 2; grid-row: 1; height: 100%; pointer-events: none; }
+        .gap-side-sticky {
+            position: sticky;
             top: 0;
-            left: 0;
+            height: 100dvh;
             display: flex;
             align-items: center;
+            background: var(--cream);
+        }
+        .gap-step {
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            padding: 168px var(--page) 96px;
+        }
+        .gap-step p {
             width: min(12em, 100%);
             margin: 0;
             font-weight: 400;
             font-size: clamp(28px, 3vw, 44px);
             line-height: 1.18;
             letter-spacing: -0.02em;
+            color: rgba(22, 22, 22, 0.34);
+            transition: color 280ms ease;
         }
-        .gap-line span {
-            display: block;
-            max-width: 12em;
-            filter: blur(calc(var(--glass, 0) * 6px));
-            opacity: calc(1 - var(--glass, 0) * 0.18);
-        }
+        .gap-step.is-on p { color: var(--ink); }
         .gap-stages {
             position: relative;
             width: 100%;
@@ -345,18 +339,32 @@
             opacity: 1;
             --target-r: clamp(64px, 6.2vw, 88px);
             --circle-inset: calc(var(--target-r) * 4.25);
+            --vb-w: 635.2012;
+            --vb-h: 532.9525;
+            --cx: 315.0074;
+            --cy: 244.6224;
+            --r: 88.7911;
         }
+        .gap-plate,
         .gap-stage svg {
             position: absolute;
             top: 50%;
             left: calc(100% - var(--circle-inset));
-            overflow: visible;
             width: calc(var(--vb-w) * var(--target-r) / var(--r));
             height: calc(var(--vb-h) * var(--target-r) / var(--r));
             transform: translate(
                 calc(var(--cx) / var(--vb-w) * -100%),
                 calc(var(--cy) / var(--vb-h) * -100%)
             );
+        }
+        .gap-plate {
+            z-index: 0;
+            background: var(--cream);
+            box-shadow: 0 0 0 22px var(--cream);
+        }
+        .gap-stage svg {
+            z-index: 1;
+            overflow: visible;
         }
         .gap-layer { transition: opacity 680ms ease; }
         .gap-disc, .gap-ring, .gap-orbits, .gap-cross, .gap-steps, .gap-weave { opacity: 0; }
@@ -401,40 +409,89 @@
         .gap-dot.is-filled { background: var(--ink); }
 
         .making {
+            display: flow-root;
             background: var(--blue);
             color: var(--cream);
-            min-height: 100vh;
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            text-align: left;
-            padding: clamp(128px, 14vh, 168px) var(--page) clamp(96px, 12vh, 140px);
+            padding: 0 0 clamp(40px, 6vh, 72px);
         }
         .making .section-kicker { color: var(--cream); }
+        .making-head {
+            --kicker-top: 132px;
+            position: sticky;
+            top: var(--kicker-top);
+            z-index: 4;
+            width: 43%;
+            margin: var(--kicker-top) 0 0;
+            padding: 8px var(--page) 16px;
+            background: var(--blue);
+        }
         .making-kicker {
-            margin-top: clamp(28px, 4vh, 48px);
+            margin: clamp(20px, 3vh, 36px) 0 0;
             font-weight: 400;
             font-size: clamp(14px, 1.3vw, 18px);
             line-height: 1.3;
             letter-spacing: 0.15em;
             text-transform: uppercase;
         }
-        .making-copy {
-            max-width: 40em;
-            margin-top: clamp(28px, 4vh, 40px);
+        .making-scrolly {
+            position: relative;
+            z-index: 1;
             display: grid;
-            gap: 1.15em;
+            grid-template-columns: minmax(0, 0.86fr) minmax(280px, 1.14fr);
+            align-items: stretch;
+        }
+        .making-steps { position: relative; z-index: 1; grid-column: 1 / -1; grid-row: 1; }
+        .making-side {
+            position: relative;
+            z-index: 2;
+            grid-column: 2;
+            grid-row: 1;
+            height: 100%;
+            pointer-events: none;
+        }
+        .making-side-sticky {
+            position: sticky;
+            top: 0;
+            height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--blue);
+        }
+        .making-step {
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            padding: 12vh var(--page);
+        }
+        .making-step p {
+            width: min(18em, 100%);
+            margin: 0;
             font-size: clamp(18px, 1.7vw, 24px);
             line-height: 1.4;
+            color: rgba(247, 246, 241, 0.38);
+            transition: color 280ms ease;
         }
-        .making-figure {
-            align-self: center;
-            display: block;
-            width: min(100%, 880px);
+        .making-step.is-on p { color: var(--cream); }
+        .making-hold { height: 100dvh; }
+        .making-stage {
+            width: min(100%, 980px);
             height: auto;
-            margin-top: clamp(36px, 6vh, 64px);
+            transform: translateY(calc(50% - 360 / 1040 * 100%));
+        }
+        .making-stage svg { display: block; width: 100%; height: auto; overflow: visible; }
+        .making-figure {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .making-label {
+            fill: var(--cream);
+            font-family: "Founders Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
         }
 
         .system, .practice {
@@ -588,19 +645,27 @@
         }
         .demo-inquiry:hover { color: var(--blue); }
 
-        @media (max-width: 800px) {
+        @media (max-width: 1050px) {
             .hero-main { grid-template-columns: 1fr; align-items: start; row-gap: 28px; }
             .hero h1 { font-size: clamp(44px, 12vw, 72px); }
             .hero-art { justify-self: stretch; width: 100%; max-width: 100%; max-height: 42vh; margin-right: 0; object-fit: contain; object-position: left center; }
             svg.hero-art { width: auto; max-width: 100%; }
             .stat-ghost, .stat-ink { white-space: normal; }
             .hero-foot { align-items: start; flex-direction: column; }
-            .gap-sticky { padding-top: 100px; }
-            .gap-pane-main { grid-template-columns: 1fr; align-items: start; }
-            .gap-lines { height: clamp(168px, 30vh, 240px); }
-            .gap-stages { height: min(46vh, 360px); }
+            .gap-kicker { --kicker-top: 96px; }
+            .gap-scrolly { grid-template-columns: 1fr; }
+            .gap-copy, .gap-side { grid-area: 1 / 1; }
+            .gap-side-sticky { top: 50dvh; height: 50dvh; align-items: flex-end; padding-bottom: 4dvh; }
+            .gap-step { align-items: flex-start; padding: 148px var(--page) 50dvh; }
+            .gap-stages { height: min(42vh, 320px); }
             .gap-stage { --target-r: clamp(44px, min(8.15vw, 7.4vh), 64px); }
-            .gap-stage svg { left: 50%; top: 42%; }
+            .gap-plate, .gap-stage svg { left: 50%; top: 42%; }
+            .making-scrolly { grid-template-columns: 1fr; }
+            .making-steps, .making-side { grid-area: 1 / 1; }
+            .making-head { --kicker-top: 96px; width: 100%; }
+            .making-side-sticky { top: 50dvh; height: 50dvh; align-items: flex-end; justify-content: center; padding-bottom: 4dvh; }
+            .making-step { align-items: flex-start; padding: 28px var(--page) 54dvh; }
+            .making-stage { width: 100%; height: auto; transform: none; }
             .system-layout { grid-template-columns: auto minmax(0, 1fr); }
             .system-art { --art-h: min(48vh, 400px); --shaft: clamp(32px, 10vw, 72px); }
             .demo-layout { grid-template-columns: 1fr; }
@@ -634,7 +699,7 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            html { scroll-behavior: auto; scroll-snap-type: none; }
+            html { scroll-behavior: auto; }
             .stat-ink { clip-path: none; }
             .nav-toggle-icon span { transition: none; }
             .gap-layer, .gap-fo, .gap-orbits ellipse, .gap-steps path { transition: none; }
@@ -682,24 +747,22 @@
         </section>
 
         <section class="gap-deck" id="gap" aria-label="The visibility gap">
-            <div class="gap-sticky">
-                <h2 class="section-kicker">The visibility gap</h2>
-                <div class="gap-pane-main">
-                    <div class="gap-lines" aria-hidden="true">
-                        <p class="gap-line"><span>Some of the most consequential moments in healthcare happen in conversation.</span></p>
-                        <p class="gap-line"><span>Downstream signals offer indirect, often retrospective views.</span></p>
-                        <p class="gap-line"><span>Records around the encounter are an incomplete picture of what transpired.</span></p>
-                        <p class="gap-line"><span>Yet, the conversation itself remains difficult to examine systematically.</span></p>
-                    </div>
-                    <div class="gap-stages">
-                        <div class="gap-stage" id="gapStage"></div>
+            <h2 class="section-kicker gap-kicker">The visibility gap</h2>
+            <div class="gap-scrolly">
+                <div class="gap-copy">
+                    <article class="gap-step" id="gap-1"><p>Some of the most consequential moments in healthcare happen in conversation.</p></article>
+                    <article class="gap-step" id="gap-2"><p>Downstream signals offer indirect, often retrospective views.</p></article>
+                    <article class="gap-step" id="gap-3"><p>Records around the encounter are an incomplete picture of what transpired.</p></article>
+                    <article class="gap-step" id="gap-4"><p>Yet, the conversation itself remains difficult to examine systematically.</p></article>
+                </div>
+                <div class="gap-side">
+                    <div class="gap-side-sticky">
+                        <div class="gap-stages">
+                            <div class="gap-stage" id="gapStage"><div class="gap-plate" aria-hidden="true"></div></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="gap-snap" id="gap-1"></div>
-            <div class="gap-snap" id="gap-2"></div>
-            <div class="gap-snap" id="gap-3"></div>
-            <div class="gap-snap" id="gap-4"></div>
             <p class="visually-hidden" id="gapLive" aria-live="polite">Some of the most consequential moments in healthcare happen in conversation.</p>
         </section>
         <div class="gap-dots" aria-hidden="false">
@@ -710,13 +773,31 @@
         </div>
 
         <section class="making" id="visible" aria-labelledby="visible-kicker">
-            <h2 class="section-kicker" id="visible-kicker">Making communication visible</h2>
-            <p class="making-kicker">Decision communication intelligence</p>
-            <div class="making-copy">
-                <p>We identify discrete treatment decisions within clinical conversation transcripts generated by existing ambient systems and decompose them into constituent elements linked to supporting dialogue.</p>
-                <p>Our structured, evidence-linked representation establishes a consistent basis for examining the content, structure, and quality of decision communication across similar decisions.</p>
+            <div class="making-head">
+                <h2 class="section-kicker" id="visible-kicker">Making communication visible</h2>
+                <p class="making-kicker">Decision communication intelligence</p>
             </div>
-            <img class="making-figure" src="MakingCommunicationVisible-01.svg" alt="Structured representation of decision communication. A decision links a recommendation and preferences to option A and option B, each with risks, benefits, and burdens.">
+            <div class="making-scrolly">
+                <div class="making-steps">
+                    <article class="making-step is-on" id="making-1">
+                        <p>We identify discrete treatment decisions within clinical conversation transcripts generated by existing ambient systems and decompose them into constituent elements linked to supporting dialogue.</p>
+                    </article>
+                    <article class="making-step" id="making-2">
+                        <p>Our structured, evidence-linked representation establishes a consistent basis for examining the content, structure, and quality of decision communication across similar decisions.</p>
+                    </article>
+                    <article class="making-step" id="making-3">
+                        <p>A decision links a recommendation and preferences to option A and option B, each with risks, benefits, and burdens.</p>
+                    </article>
+                    <div class="making-hold" aria-hidden="true"></div>
+                </div>
+                <div class="making-side">
+                    <div class="making-side-sticky">
+                        <div class="making-stage" id="makingStage">
+                            <img class="making-figure" src="MakingCommunicationVisible-01.svg" alt="Structured representation of decision communication. A decision links a recommendation and preferences to option A and option B, each with risks, benefits, and burdens.">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="system" id="system" aria-labelledby="system-kicker">
@@ -777,6 +858,7 @@
         </section>
 
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/scrollama@3.2.0/build/scrollama.min.js"></script>
     <script>
         const stat = document.getElementById("statFigure");
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1012,91 +1094,42 @@
         }
 
         const gapDeck = document.getElementById("gap");
-        const gapLines = [...document.querySelectorAll(".gap-line")];
+        const gapSteps = [...document.querySelectorAll(".gap-step")];
         const gapLive = document.getElementById("gapLive");
-        const gapLinesBox = document.querySelector(".gap-lines");
         const gapStage = document.getElementById("gapStage");
         const dots = [...document.querySelectorAll(".gap-dot")];
         const dotBar = document.querySelector(".gap-dots");
         let gapGraphic = -1;
-        let gapHold = null;
-        let gapSlot = 0;
 
-        function measureGapSlot() {
-            const probe = document.createElement("p");
-            probe.className = "gap-line";
-            probe.style.visibility = "hidden";
-            probe.style.transform = "none";
-            probe.style.height = "auto";
-            const span = document.createElement("span");
-            probe.appendChild(span);
-            gapLinesBox.appendChild(probe);
-            let tallest = 0;
-            gapLines.forEach((line) => {
-                span.textContent = line.dataset.line;
-                tallest = Math.max(tallest, span.offsetHeight);
-            });
-            probe.remove();
-            gapLinesBox.style.height = "";
-            const view = Math.max(tallest, gapLinesBox.getBoundingClientRect().height);
-            gapSlot = view;
-            gapLinesBox.style.height = `${view}px`;
-            gapLines.forEach((line) => { line.style.height = `${view}px`; });
-        }
-
-        gapLines.forEach((line) => { line.dataset.line = line.textContent.trim(); });
+        gapSteps.forEach((step) => { step.dataset.line = step.textContent.trim(); });
 
         const gapAnimeReady = import("https://cdn.jsdelivr.net/npm/animejs@4.5.0/+esm").catch(() => null);
 
-        function gapTravel() {
-            const span = gapDeck.offsetHeight - window.innerHeight;
-            if (span <= 0) return 0;
-            const progress = (window.scrollY - gapDeck.offsetTop) / span;
-            return Math.min(gapLines.length - 1, Math.max(0, progress * (gapLines.length - 1)));
+        function showGap(index) {
+            if (index === gapGraphic) return;
+            gapGraphic = index;
+            gapSteps.forEach((step, stepIndex) => step.classList.toggle("is-on", stepIndex === index));
+            dots.forEach((dot, stepIndex) => {
+                dot.classList.toggle("is-filled", stepIndex <= index);
+                dot.setAttribute("aria-current", stepIndex === index ? "true" : "false");
+            });
+            gapLive.textContent = gapSteps[index].dataset.line;
+            presentGap(index);
         }
 
-        function renderGap(travel) {
-            if (!gapSlot) measureGapSlot();
-            const slot = gapSlot;
-            gapLines.forEach((line, index) => {
-                const distance = Math.abs(index - travel);
-                const glass = Math.min(1, Math.max(0, (distance - 0.2) / 0.55));
-                line.style.top = "0px";
-                line.style.setProperty("--glass", glass.toFixed(3));
-                line.style.transform = `translateY(${(index - travel) * slot}px)`;
-            });
-            const next = Math.min(gapLines.length - 1, Math.max(0, Math.floor(travel + 0.12)));
-            if (next === gapGraphic) return;
-            gapGraphic = next;
-            dots.forEach((dot, index) => {
-                dot.classList.toggle("is-filled", index <= next);
-                dot.setAttribute("aria-current", index === next ? "true" : "false");
-            });
-            gapLive.textContent = gapLines[next].dataset.line;
-            presentGap(next);
-        }
-
-        function syncGap() {
-            const travel = gapTravel();
-            if (gapHold !== null) {
-                if (Math.abs(travel - gapHold) < 0.15) gapHold = null;
-                return;
-            }
-            renderGap(travel);
-        }
+        const gapScroller = scrollama();
+        gapScroller.setup({ step: ".gap-step", offset: 0.55 }).onStepEnter((response) => {
+            showGap(response.index);
+        });
 
         dots.forEach((dot, index) => {
             dot.addEventListener("click", () => {
-                gapHold = index;
-                renderGap(index);
                 document.getElementById(`gap-${index + 1}`).scrollIntoView({
                     behavior: reduceMotion ? "auto" : "smooth",
-                    block: "start"
+                    block: "center"
                 });
             });
         });
-        window.addEventListener("wheel", () => { gapHold = null; }, { passive: true });
-        window.addEventListener("touchmove", () => { gapHold = null; }, { passive: true });
         if ("IntersectionObserver" in window) {
             const deckWatch = new IntersectionObserver((entries) => {
                 dotBar.classList.toggle("is-on", entries.some((entry) => entry.isIntersecting));
@@ -1517,14 +1550,455 @@
             buildGapScene(orbitSvg, stepSvg);
         });
 
-        syncGap();
-        window.addEventListener("pageshow", syncGap);
-        window.addEventListener("scroll", syncGap, { passive: true });
-        window.addEventListener("resize", () => {
-            gapSlot = 0;
-            syncGap();
-        });
-        if (document.fonts) document.fonts.ready.then(() => { gapSlot = 0; syncGap(); });
+        const makingStage = document.getElementById("makingStage");
+        const makingSteps = [...document.querySelectorAll(".making-step")];
+        let renderMaking = null;
+        const makingScrolly = document.querySelector(".making-scrolly");
+        const makingSchedule = {
+            recommendation: [0.04, 0.16],
+            preferences: [0.08, 0.20],
+            "option-a": [0.12, 0.28],
+            "option-b": [0.16, 0.32],
+            "a-risks": [0.30, 0.44],
+            "a-benefits": [0.34, 0.48],
+            "a-burdens": [0.38, 0.52],
+            "b-risks": [0.36, 0.50],
+            "b-benefits": [0.40, 0.54],
+            "b-burdens": [0.44, 0.60]
+        };
+        const makingTree = {
+            id: "decision",
+            label: "Decision",
+            shape: "card",
+            children: [
+                {
+                    id: "option-a",
+                    label: "Option A",
+                    shape: "circle",
+                    children: [
+                        { id: "a-risks", label: "Risks", shape: "circle" },
+                        { id: "a-benefits", label: "Benefits", shape: "circle" },
+                        { id: "a-burdens", label: "Burdens", shape: "circle" }
+                    ]
+                },
+                { id: "recommendation", label: "Recommendation", shape: "triangle" },
+                { id: "preferences", label: "Preferences", shape: "triangle" },
+                {
+                    id: "option-b",
+                    label: "Option B",
+                    shape: "circle",
+                    children: [
+                        { id: "b-risks", label: "Risks", shape: "circle" },
+                        { id: "b-benefits", label: "Benefits", shape: "circle" },
+                        { id: "b-burdens", label: "Burdens", shape: "circle" }
+                    ]
+                }
+            ]
+        };
+
+        function makingCircle(r) {
+            return `M ${-r} 0 A ${r} ${r} 0 1 1 ${r} 0 A ${r} ${r} 0 1 1 ${-r} 0 Z`;
+        }
+        function makingCard(w, h, r) {
+            const x = -w / 2;
+            const y = -h / 2;
+            return `M ${x + r} ${y} H ${x + w - r} A ${r} ${r} 0 0 1 ${x + w} ${y + r} V ${y + h - r} A ${r} ${r} 0 0 1 ${x + w - r} ${y + h} H ${x + r} A ${r} ${r} 0 0 1 ${x} ${y + h - r} V ${y + r} A ${r} ${r} 0 0 1 ${x + r} ${y} Z`;
+        }
+        function makingTriangle(w, h) {
+            return `M 0 ${(-h * 0.58).toFixed(2)} L ${(w / 2).toFixed(2)} ${(h * 0.42).toFixed(2)} L ${(-w / 2).toFixed(2)} ${(h * 0.42).toFixed(2)} Z`;
+        }
+        function makingShape(kind, depth) {
+            if (kind === "card") return { start: makingCircle(46), final: makingCard(144, 144, 8), startR: 46, hit: 78 };
+            if (kind === "triangle") return { start: makingCircle(20), final: makingTriangle(96, 84), startR: 20, hit: 52 };
+            if (depth > 1) return { start: makingCircle(16), final: makingCircle(44), startR: 16, hit: 44 };
+            return { start: makingCircle(20), final: makingCircle(58), startR: 20, hit: 58 };
+        }
+        function makingEase(t) {
+            const x = Math.max(0, Math.min(1, t));
+            return x * x * (3 - 2 * x);
+        }
+
+        const makingSpots = {
+            decision: { x: 0, y: 0 },
+            recommendation: { x: -280, y: -220 },
+            preferences: { x: 280, y: -220 },
+            "option-a": { x: -270, y: 280 },
+            "option-b": { x: 270, y: 280 },
+            "a-risks": { x: -460, y: 530 },
+            "a-benefits": { x: -270, y: 530 },
+            "a-burdens": { x: -80, y: 530 },
+            "b-risks": { x: 80, y: 530 },
+            "b-benefits": { x: 270, y: 530 },
+            "b-burdens": { x: 460, y: 530 }
+        };
+
+        function makingConnector(x1, y1, x2, y2) {
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const len = Math.hypot(dx, dy) || 1;
+            const side = Math.sign(x2 || x1 || 1);
+            const bend = Math.min(20, len * 0.05) * side;
+            const cx = (x1 + x2) / 2 + bend;
+            const cy = (y1 + y2) / 2;
+            return `M ${x1.toFixed(2)} ${y1.toFixed(2)} Q ${cx.toFixed(2)} ${cy.toFixed(2)} ${x2.toFixed(2)} ${y2.toFixed(2)}`;
+        }
+
+        function buildMakingScene(hierarchy, shape, morphLib) {
+            const root = hierarchy.hierarchy(makingTree);
+            root.each((node) => {
+                const spot = makingSpots[node.data.id];
+                node.x = spot.x;
+                node.y = spot.y;
+            });
+
+            const svg = document.createElementNS(SVG_NS, "svg");
+            svg.setAttribute("viewBox", "-560 -360 1120 1040");
+            svg.setAttribute("aria-hidden", "true");
+            const defs = document.createElementNS(SVG_NS, "defs");
+            const filter = document.createElementNS(SVG_NS, "filter");
+            filter.setAttribute("id", "making-goo");
+            filter.setAttribute("x", "-80%");
+            filter.setAttribute("y", "-80%");
+            filter.setAttribute("width", "260%");
+            filter.setAttribute("height", "260%");
+            filter.setAttribute("color-interpolation-filters", "sRGB");
+            const blur = document.createElementNS(SVG_NS, "feGaussianBlur");
+            blur.setAttribute("in", "SourceGraphic");
+            blur.setAttribute("stdDeviation", "12");
+            blur.setAttribute("result", "blur");
+            const matrix = document.createElementNS(SVG_NS, "feColorMatrix");
+            matrix.setAttribute("in", "blur");
+            matrix.setAttribute("mode", "matrix");
+            matrix.setAttribute("values", "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9");
+            matrix.setAttribute("result", "goo");
+            const composite = document.createElementNS(SVG_NS, "feComposite");
+            composite.setAttribute("in", "SourceGraphic");
+            composite.setAttribute("in2", "goo");
+            composite.setAttribute("operator", "atop");
+            filter.append(blur, matrix, composite);
+            defs.appendChild(filter);
+            const links = document.createElementNS(SVG_NS, "g");
+            links.setAttribute("fill", "none");
+            links.setAttribute("stroke", "rgba(247,246,241,0.55)");
+            links.setAttribute("stroke-width", "2.4");
+            links.setAttribute("stroke-linecap", "round");
+            const goo = document.createElementNS(SVG_NS, "g");
+            goo.setAttribute("filter", "url(#making-goo)");
+            const labels = document.createElementNS(SVG_NS, "g");
+            svg.append(defs, links, goo, labels);
+
+            const actors = root.descendants().map((node) => {
+                const spec = makingShape(node.data.shape, node.depth);
+                let tween = null;
+                if (morphLib) {
+                    try {
+                        tween = morphLib.interpolate(spec.start, spec.final, { maxSegmentLength: 5 });
+                    } catch (error) {
+                        tween = null;
+                    }
+                }
+                const blob = document.createElementNS(SVG_NS, "path");
+                blob.setAttribute("fill", "#F7F6F1");
+                blob.setAttribute("d", node.depth === 0 ? spec.final : spec.start);
+                goo.appendChild(blob);
+                let connector = null;
+                if (node.parent) {
+                    connector = document.createElementNS(SVG_NS, "path");
+                    connector.setAttribute("d", makingConnector(node.parent.x, node.parent.y, node.x, node.y));
+                    links.appendChild(connector);
+                }
+                const label = document.createElementNS(SVG_NS, "text");
+                label.setAttribute("class", "making-label");
+                label.setAttribute("text-anchor", "middle");
+                label.setAttribute("dominant-baseline", "middle");
+                label.setAttribute("font-size", node.depth > 1 ? "17" : "21");
+                label.textContent = node.data.label;
+                labels.appendChild(label);
+                return { node, spec, tween, blob, connector, label, length: 0 };
+            });
+
+            makingStage.querySelector(".making-figure")?.remove();
+            makingStage.appendChild(svg);
+            actors.forEach((actor) => {
+                if (!actor.connector) return;
+                actor.length = actor.connector.getTotalLength();
+            });
+            function dottedReveal(length, travel) {
+                const visible = length * Math.max(0, Math.min(1, travel));
+                const dot = 0.8;
+                const gap = 8.4;
+                if (visible < 0.6) return `0 ${length.toFixed(2)}`;
+                const parts = [];
+                let cursor = 0;
+                while (cursor < visible - 0.2) {
+                    const dash = Math.min(dot, visible - cursor);
+                    parts.push(dash.toFixed(2));
+                    cursor += dash;
+                    if (cursor >= visible - 0.2) {
+                        parts.push(Math.max(gap, length - cursor).toFixed(2));
+                        break;
+                    }
+                    const hole = Math.min(gap, visible - cursor);
+                    cursor += hole;
+                    if (cursor >= visible - 0.2) {
+                        parts.push(Math.max(gap, length - cursor + hole).toFixed(2));
+                        break;
+                    }
+                    parts.push(hole.toFixed(2));
+                }
+                return parts.join(" ");
+            }
+
+            function pointAlong(actor, t) {
+                if (!actor.connector) return { x: 0, y: 0 };
+                const spot = actor.connector.getPointAtLength(actor.length * Math.max(0, Math.min(1, t)));
+                return { x: spot.x, y: spot.y };
+            }
+            function labelSize(actor) {
+                const fs = actor.node.depth > 1 ? 17 : 21;
+                return { w: actor.node.data.label.length * fs * 0.64, h: fs };
+            }
+            function closestOnSegment(ax, ay, bx, by, px, py) {
+                const abx = bx - ax;
+                const aby = by - ay;
+                const denom = abx * abx + aby * aby || 1;
+                const t = Math.max(0, Math.min(1, ((px - ax) * abx + (py - ay) * aby) / denom));
+                return { x: ax + abx * t, y: ay + aby * t };
+            }
+            function labelHome(actor, sx, sy) {
+                const size = labelSize(actor);
+                const hit = actor.spec.hit;
+                let ux = 0;
+                let uy = 1;
+                if (actor.node.depth === 0) {
+                    uy = 1;
+                } else if (actor.node.data.shape === "triangle") {
+                    uy = -1;
+                } else if (actor.node.depth === 1) {
+                    ux = Math.sign(sx || 1);
+                    uy = 0;
+                }
+                const len = Math.hypot(ux, uy) || 1;
+                ux /= len;
+                uy /= len;
+                const extra = Math.abs(ux) > Math.abs(uy) ? size.w / 2 : size.h / 2;
+                return {
+                    actor,
+                    sx,
+                    sy,
+                    w: size.w,
+                    h: size.h,
+                    homeX: sx + ux * (hit + 20 + extra),
+                    homeY: sy + uy * (hit + 20 + extra)
+                };
+            }
+            function relaxLabels(items, obstacles, segments) {
+                const placed = items.map((item) => ({ ...item, x: item.homeX, y: item.homeY }));
+                for (let iter = 0; iter < 28; iter++) {
+                    for (const label of placed) {
+                        for (const shape of obstacles) {
+                            let dx = label.x - shape.x;
+                            let dy = label.y - shape.y;
+                            let dist = Math.hypot(dx, dy);
+                            if (dist < 0.01) {
+                                dx = 0;
+                                dy = 1;
+                                dist = 1;
+                            }
+                            const reach = (Math.abs(dx) > Math.abs(dy) ? label.w : label.h) * 0.5;
+                            const min = shape.r + reach + 16;
+                            if (dist < min) {
+                                const push = (min - dist) * 0.72;
+                                label.x += (dx / dist) * push;
+                                label.y += (dy / dist) * push;
+                            }
+                        }
+                        for (const seg of segments) {
+                            const closest = closestOnSegment(seg.ax, seg.ay, seg.bx, seg.by, label.x, label.y);
+                            let dx = label.x - closest.x;
+                            let dy = label.y - closest.y;
+                            let dist = Math.hypot(dx, dy);
+                            if (dist < 0.01) {
+                                const sx = seg.bx - seg.ax;
+                                const sy = seg.by - seg.ay;
+                                const sl = Math.hypot(sx, sy) || 1;
+                                dx = -sy / sl;
+                                dy = sx / sl;
+                                dist = 1;
+                            }
+                            const min = 18 + label.h * 0.42;
+                            if (dist < min) {
+                                const push = (min - dist) * 0.8;
+                                label.x += (dx / dist) * push;
+                                label.y += (dy / dist) * push;
+                            }
+                        }
+                        for (const other of placed) {
+                            if (other === label) continue;
+                            const dx = label.x - other.x;
+                            const dy = label.y - other.y;
+                            const minX = (label.w + other.w) * 0.52 + 12;
+                            const minY = (label.h + other.h) * 0.65 + 8;
+                            if (Math.abs(dx) < minX && Math.abs(dy) < minY) {
+                                if (Math.abs(dx) / minX <= Math.abs(dy) / minY) {
+                                    label.x += Math.sign(dx || 1) * (minX - Math.abs(dx)) * 0.5;
+                                } else {
+                                    label.y += Math.sign(dy || 1) * (minY - Math.abs(dy)) * 0.5;
+                                }
+                            }
+                        }
+                        label.x += (label.homeX - label.x) * 0.16;
+                        label.y += (label.homeY - label.y) * 0.16;
+                    }
+                }
+                return placed;
+            }
+            function writeLabel(item) {
+                const dx = item.x - item.sx;
+                const dy = item.y - item.sy;
+                let anchor = "middle";
+                let x = item.x;
+                if (Math.abs(dx) > Math.abs(dy) * 0.55) {
+                    if (dx >= 0) {
+                        anchor = "start";
+                        x = item.x - item.w / 2;
+                    } else {
+                        anchor = "end";
+                        x = item.x + item.w / 2;
+                    }
+                }
+                item.actor.label.setAttribute("text-anchor", anchor);
+                item.actor.label.setAttribute("x", x.toFixed(2));
+                item.actor.label.setAttribute("y", item.y.toFixed(2));
+            }
+            function connectorSegments(actor, travel) {
+                if (!actor.connector || travel <= 0.02) return [];
+                const steps = 5;
+                const pts = [];
+                for (let i = 0; i <= steps; i++) {
+                    pts.push(actor.connector.getPointAtLength(actor.length * travel * (i / steps)));
+                }
+                const segs = [];
+                for (let i = 0; i < pts.length - 1; i++) {
+                    segs.push({ ax: pts[i].x, ay: pts[i].y, bx: pts[i + 1].x, by: pts[i + 1].y });
+                }
+                return segs;
+            }
+
+            function renderMaking(progress) {
+                const amount = reduceMotion ? 1 : Math.max(0, Math.min(1, progress));
+                const local = new Map();
+                actors.forEach((actor) => {
+                    if (actor.node.depth === 0) {
+                        local.set(actor, 1);
+                        return;
+                    }
+                    const span = makingSchedule[actor.node.data.id];
+                    local.set(actor, makingEase((amount - span[0]) / (span[1] - span[0])));
+                });
+                const homes = [];
+                const obstacles = [];
+                const segments = [];
+                actors.forEach((actor) => {
+                    const travel = local.get(actor);
+                    if (actor.node.depth === 0) {
+                        const formed = makingEase((amount - 0.02) / 0.12);
+                        actor.blob.setAttribute("d", actor.tween ? actor.tween(reduceMotion ? 1 : formed) : actor.spec.final);
+                        actor.blob.setAttribute("transform", "translate(0 0)");
+                        actor.blob.setAttribute("opacity", "1");
+                        actor.label.setAttribute("opacity", "1");
+                        homes.push(labelHome(actor, 0, 0));
+                        obstacles.push({
+                            x: 0,
+                            y: 0,
+                            r: actor.spec.startR + (actor.spec.hit - actor.spec.startR) * formed
+                        });
+                        return;
+                    }
+                    const spot = pointAlong(actor, travel);
+                    const formed = makingEase((travel - 0.58) / 0.42);
+                    const visible = travel > 0.01;
+                    actor.blob.setAttribute("d", actor.tween ? actor.tween(formed) : (formed > 0.5 ? actor.spec.final : actor.spec.start));
+                    actor.blob.setAttribute("transform", `translate(${spot.x.toFixed(2)} ${spot.y.toFixed(2)})`);
+                    actor.blob.setAttribute("opacity", visible ? "1" : "0");
+                    if (actor.connector) {
+                        actor.connector.style.strokeDasharray = dottedReveal(actor.length, travel);
+                        actor.connector.style.strokeDashoffset = "0";
+                        actor.connector.setAttribute("opacity", visible ? "1" : "0");
+                    }
+                    const labelIn = makingEase((travel - 0.72) / 0.28);
+                    actor.label.setAttribute("opacity", labelIn.toFixed(3));
+                    if (visible) {
+                        homes.push(labelHome(actor, spot.x, spot.y));
+                        obstacles.push({
+                            x: spot.x,
+                            y: spot.y,
+                            r: actor.spec.startR + (actor.spec.hit - actor.spec.startR) * Math.max(formed, 0.35)
+                        });
+                        segments.push(...connectorSegments(actor, travel));
+                    }
+                });
+                relaxLabels(homes, obstacles, segments).forEach(writeLabel);
+            }
+
+            renderMaking(0);
+            return renderMaking;
+        }
+
+        function syncMaking() {
+            if (!renderMaking || !makingScrolly) return;
+            const rect = makingScrolly.getBoundingClientRect();
+            const span = makingSteps.reduce((sum, step) => sum + step.offsetHeight, 0);
+            const passed = Math.min(Math.max(-rect.top, 0), span);
+            const amount = reduceMotion ? 1 : (span ? passed / span : 0);
+            renderMaking(amount);
+            const narrow = window.innerWidth <= 1050;
+            const reading = window.innerHeight * (narrow ? 0.32 : 0.5);
+            let index = 0;
+            let nearest = Infinity;
+            makingSteps.forEach((step, stepIndex) => {
+                const paragraph = step.querySelector("p");
+                const anchor = paragraph
+                    ? paragraph.getBoundingClientRect().top
+                    : step.getBoundingClientRect().top;
+                const distance = Math.abs(anchor - reading);
+                if (distance < nearest) {
+                    nearest = distance;
+                    index = stepIndex;
+                }
+            });
+            makingSteps.forEach((step, stepIndex) => step.classList.toggle("is-on", stepIndex === index));
+        }
+        let makingFrame = 0;
+        function queueMaking() {
+            if (makingFrame) return;
+            makingFrame = requestAnimationFrame(() => {
+                makingFrame = 0;
+                syncMaking();
+            });
+        }
+        window.addEventListener("scroll", queueMaking, { passive: true });
+        if (window.visualViewport) {
+            visualViewport.addEventListener("scroll", queueMaking, { passive: true });
+            visualViewport.addEventListener("resize", queueMaking, { passive: true });
+        }
+
+        function resizeMakers() {
+            gapScroller.resize();
+            syncMaking();
+        }
+        window.addEventListener("pageshow", resizeMakers);
+        window.addEventListener("resize", resizeMakers);
+        requestAnimationFrame(resizeMakers);
+
+        Promise.all([
+            import("https://cdn.jsdelivr.net/npm/d3-hierarchy@3.1.2/+esm"),
+            import("https://cdn.jsdelivr.net/npm/flubber@0.4.2/+esm").catch(() => null)
+        ]).then(([hierarchy, flubber]) => {
+            const morphLib = flubber && (flubber.interpolate ? flubber : flubber.default);
+            renderMaking = buildMakingScene(hierarchy, null, morphLib);
+            syncMaking();
+        }).catch(() => {});
     </script>
 </body>
 </html>

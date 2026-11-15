@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visibility gap scroll studies</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect x='3' y='3' width='7' height='7' fill='%23141414'/></svg>">
+    <style>
+        @font-face {
+            font-family: "Tiempos Text";
+            src: url("fonts/Tiempos/TiemposText-Regular.woff") format("woff");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Founders Grotesk";
+            src: url("fonts/Founders_Grotesk/FoundersGrotesk-Light.otf") format("opentype");
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Founders Grotesk";
+            src: url("fonts/Founders_Grotesk/FoundersGrotesk-Regular.otf") format("opentype");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: "Founders Grotesk";
+            src: url("fonts/Founders_Grotesk/FoundersGrotesk-Medium.otf") format("opentype");
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        :root {
+            --cream: #F7F6F1;
+            --blue: #003F82;
+            --ink: #161616;
+            --muted: #5E5C57;
+            --gold: #d2ba96;
+            --gray: #d0cdd3;
+            --page: clamp(24px, 5vw, 72px);
+            --bar: 118px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: auto; }
+        body {
+            background: var(--cream);
+            color: var(--ink);
+            font-family: "Founders Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+            font-weight: 400;
+        }
+        .study-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            display: grid;
+            gap: 10px;
+            padding: 14px var(--page) 12px;
+            background: rgba(247, 246, 241, 0.94);
+            border-bottom: 1px solid rgba(22, 22, 22, 0.08);
+            backdrop-filter: blur(10px);
+        }
+        .study-bar h1 {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        .modes { display: flex; flex-wrap: wrap; gap: 8px; }
+        .modes button {
+            border: 1px solid rgba(22, 22, 22, 0.2);
+            background: transparent;
+            color: var(--ink);
+            font: inherit;
+            font-size: 14px;
+            letter-spacing: 0.04em;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        .modes button.is-on {
+            background: var(--ink);
+            color: var(--cream);
+            border-color: var(--ink);
+        }
+        .blurb {
+            max-width: 68em;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        .intro, .outro {
+            min-height: 70vh;
+            display: flex;
+            align-items: flex-end;
+            padding: calc(var(--bar) + 48px) var(--page) 64px;
+        }
+        .outro { align-items: center; background: var(--blue); color: var(--cream); min-height: 80vh; }
+        .intro p, .outro p {
+            max-width: 16em;
+            font-family: "Tiempos Text", Georgia, serif;
+            font-size: clamp(32px, 4vw, 56px);
+            line-height: 1.05;
+        }
+        .frame {
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            padding: calc(var(--bar) + 28px) var(--page) 72px;
+            background: var(--cream);
+        }
+        .kicker {
+            font-weight: 500;
+            font-size: 15px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        .main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 0.8fr) minmax(260px, 1.2fr);
+            align-items: center;
+            gap: clamp(16px, 3vw, 48px);
+        }
+        .lines { position: relative; height: clamp(180px, 28vh, 280px); overflow: hidden; }
+        .line {
+            position: absolute;
+            inset: 0 auto auto 0;
+            display: flex;
+            align-items: center;
+            width: min(14em, 100%);
+            margin: 0;
+            font-family: "Tiempos Text", Georgia, serif;
+            font-size: clamp(26px, 2.6vw, 40px);
+            line-height: 1.18;
+        }
+        .line span {
+            display: block;
+            filter: blur(calc(var(--glass, 0) * 6px));
+            opacity: calc(1 - var(--glass, 0) * 0.18);
+        }
+        .graphic { display: grid; justify-items: center; gap: 18px; }
+        .disc {
+            width: min(46vh, 340px);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            border: 1.5px dashed var(--gray);
+            display: grid;
+            place-items: center;
+            position: relative;
+        }
+        .disc strong {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.16em;
+            text-align: center;
+            line-height: 1.35;
+        }
+        .orbit {
+            position: absolute;
+            inset: 8%;
+            border: 1.5px solid var(--gold);
+            border-radius: 50%;
+            transform: rotate(18deg) scaleX(1.35);
+            opacity: 0;
+        }
+        .orbit:nth-child(2) { inset: 16%; transform: rotate(78deg) scaleX(1.5); }
+        .disc.is-2 .orbit, .disc.is-3 .orbit, .disc.is-4 .orbit { opacity: 1; }
+        .disc.is-3 .orbit, .disc.is-4 .orbit { border-color: var(--gray); }
+        .disc.is-1 { border-style: dashed; border-color: var(--gray); }
+        .disc.is-4 { border-style: dotted; border-color: var(--gold); }
+        .pane-name {
+            font-size: 13px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .readout {
+            position: absolute;
+            left: var(--page);
+            bottom: 28px;
+            font-size: 13px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .scrolly {
+            display: grid;
+            grid-template-columns: minmax(0, 0.9fr) minmax(260px, 1.1fr);
+            align-items: stretch;
+            padding: 0 var(--page);
+        }
+        .side { height: 100%; }
+        .step {
+            position: relative;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            padding: var(--bar) 8% 48px 0;
+            font-family: "Tiempos Text", Georgia, serif;
+            font-size: clamp(26px, 2.6vw, 40px);
+            line-height: 1.18;
+            color: rgba(22, 22, 22, 0.28);
+        }
+        .step.is-settled { color: var(--ink); }
+        .side-sticky {
+            position: sticky;
+            top: 0;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: var(--bar);
+            background: var(--cream);
+        }
+        @media (max-width: 800px) {
+            .main, .scrolly { grid-template-columns: 1fr; }
+            .side-sticky { position: relative; height: auto; min-height: 240px; }
+            .step { min-height: 70dvh; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .line span { filter: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="study-bar">
+        <h1>Visibility gap scroll studies</h1>
+        <div class="modes" role="tablist">
+            <button type="button" data-mode="gsap">ScrollTrigger scrub + snap</button>
+            <button type="button" data-mode="lenis">Lenis + ScrollTrigger</button>
+            <button type="button" data-mode="scrollama">Scrollama steps</button>
+        </div>
+        <p class="blurb" id="blurb"></p>
+    </div>
+    <header class="intro"><p>Scroll into the visibility gap.</p></header>
+    <div id="stage"></div>
+    <footer class="outro"><p>The next section begins when the gap lets go.</p></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/scrollama@3.2.0/build/scrollama.min.js"></script>
+    <script>
+        const LINES = [
+            "Some of the most consequential moments in healthcare happen in conversation.",
+            "Downstream signals offer indirect, often retrospective views.",
+            "Records around the encounter are an incomplete picture of what transpired.",
+            "Yet, the conversation itself remains difficult to examine systematically."
+        ];
+        const PANES = [
+            ["Clinical conversations", "Pane 1 stays still"],
+            ["Signals in orbit", "Pane 2 brings the field in"],
+            ["The record, in steps", "Pane 3 draws the steps"],
+            ["The thread", "Pane 4 starts the weave"]
+        ];
+        const BLURBS = {
+            gsap: "The scene stays pinned. Scroll drives the four panes directly, with a one-second catch-up so a jumpy wheel eases instead of skipping, then it settles onto the nearest pane.",
+            lenis: "Lenis first makes a trackpad and a mouse wheel travel the same way. ScrollTrigger still pins the scene and eases onto a pane, without a second lag on top of that smoothing.",
+            scrollama: "The sentences scroll like ordinary text, one viewport apart. The graphic updates when a sentence crosses the middle of the screen. Nothing snaps and nothing has to catch up."
+        };
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const stage = document.getElementById("stage");
+        const blurb = document.getElementById("blurb");
+        let lenis = null;
+        let lenisTick = null;
+        let scroller = null;
+
+        function teardown() {
+            if (window.ScrollTrigger) ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+            if (lenis) {
+                gsap.ticker.remove(lenisTick);
+                lenis.destroy();
+                lenis = null;
+            }
+            if (scroller) {
+                if (typeof scroller.destroy === "function") scroller.destroy();
+                scroller = null;
+            }
+            stage.innerHTML = "";
+        }
+
+        function paintPane(root, index) {
+            const disc = root.querySelector(".disc");
+            const name = root.querySelector(".pane-name");
+            const readout = root.querySelector(".readout");
+            if (disc) disc.className = `disc is-${index + 1}`;
+            if (name) name.textContent = PANES[index][0];
+            if (readout) readout.textContent = `Pane ${index + 1} of 4`;
+            root.querySelectorAll(".step").forEach((step, stepIndex) => {
+                step.classList.toggle("is-settled", stepIndex === index);
+            });
+        }
+
+        function renderTravel(root, travel) {
+            const lines = [...root.querySelectorAll(".line")];
+            const slot = root.querySelector(".lines").getBoundingClientRect().height;
+            lines.forEach((line, index) => {
+                const distance = Math.abs(index - travel);
+                const glass = Math.min(1, Math.max(0, (distance - 0.2) / 0.55));
+                line.style.setProperty("--glass", glass.toFixed(3));
+                line.style.transform = `translateY(${(index - travel) * slot}px)`;
+            });
+            const index = Math.min(3, Math.max(0, Math.floor(travel + 0.12)));
+            paintPane(root, index);
+        }
+
+        function pinnedMarkup() {
+            return `<section class="deck" id="deck"><div class="frame">
+                <p class="kicker">The visibility gap</p>
+                <div class="main">
+                    <div class="lines">
+                        ${LINES.map((line) => `<p class="line"><span>${line}</span></p>`).join("")}
+                    </div>
+                    <div class="graphic">
+                        <div class="disc is-1" aria-hidden="true"><i class="orbit"></i><i class="orbit"></i><strong>CLINICAL<br>CONVERSATIONS</strong></div>
+                        <p class="pane-name"></p>
+                    </div>
+                </div>
+                <p class="readout"></p>
+            </div></section>`;
+        }
+
+        function mountPinned(useLenis) {
+            stage.innerHTML = pinnedMarkup();
+            const root = stage.querySelector(".deck");
+            gsap.registerPlugin(ScrollTrigger);
+            if (useLenis && !reduceMotion) {
+                lenis = new Lenis({ lerp: 0.085, smoothWheel: true, wheelMultiplier: 0.9 });
+                lenis.on("scroll", ScrollTrigger.update);
+                lenisTick = (time) => lenis.raf(time * 1000);
+                gsap.ticker.add(lenisTick);
+                gsap.ticker.lagSmoothing(0);
+            }
+            const proxy = { t: 0 };
+            gsap.to(proxy, {
+                t: 3,
+                ease: "none",
+                onUpdate: () => renderTravel(root, proxy.t),
+                scrollTrigger: {
+                    trigger: root,
+                    start: "top top",
+                    end: "+=300%",
+                    pin: true,
+                    anticipatePin: 1,
+                    scrub: reduceMotion || useLenis ? true : 1,
+                    snap: {
+                        snapTo: 1 / 3,
+                        duration: reduceMotion ? 0 : { min: 0.2, max: 0.5 },
+                        delay: reduceMotion ? 0 : 0.12,
+                        ease: "power1.inOut",
+                        inertia: false
+                    }
+                }
+            });
+            renderTravel(root, 0);
+        }
+
+        function mountScrollama() {
+            stage.innerHTML = `<section class="scrolly">
+                <div class="steps">
+                    ${LINES.map((line) => `<article class="step"><p>${line}</p></article>`).join("")}
+                </div>
+                <div class="side">
+                    <div class="side-sticky">
+                        <p class="kicker">The visibility gap</p>
+                        <div class="graphic">
+                            <div class="disc is-1" aria-hidden="true"><i class="orbit"></i><i class="orbit"></i><strong>CLINICAL<br>CONVERSATIONS</strong></div>
+                            <p class="pane-name"></p>
+                        </div>
+                        <p class="readout"></p>
+                    </div>
+                </div>
+            </section>`;
+            const root = stage.querySelector(".scrolly");
+            paintPane(root, 0);
+            scroller = scrollama();
+            scroller.setup({ step: ".step", offset: 0.55 }).onStepEnter((response) => {
+                paintPane(root, response.index);
+            });
+            requestAnimationFrame(() => scroller.resize());
+        }
+
+        function setMode(mode) {
+            teardown();
+            blurb.textContent = BLURBS[mode];
+            document.querySelectorAll(".modes button").forEach((button) => {
+                button.classList.toggle("is-on", button.dataset.mode === mode);
+            });
+            if (mode === "scrollama") mountScrollama();
+            else mountPinned(mode === "lenis");
+            history.replaceState(null, "", `?mode=${mode}`);
+        }
+
+        document.querySelectorAll(".modes button").forEach((button) => {
+            button.addEventListener("click", () => {
+                setMode(button.dataset.mode);
+                document.querySelector(".intro").scrollIntoView({ block: "start" });
+            });
+        });
+        window.addEventListener("resize", () => { if (scroller) scroller.resize(); });
+        const initial = new URLSearchParams(location.search).get("mode");
+        setMode(BLURBS[initial] ? initial : "lenis");
+    </script>
+</body>
+</html>
